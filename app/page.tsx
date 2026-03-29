@@ -1,7 +1,42 @@
+import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import ServicesGrid from "@/components/ServicesGrid";
 import Locations from "@/components/Locations";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Escorts in Mumbai – Verified Companions 24/7",
+  description:
+    "Book verified escorts in Mumbai — VIP, college, independent, Russian and more. Professional, discreet companionship available 24 hours across all Mumbai areas. Call +91-9653203658.",
+  alternates: { canonical: "/" },
+};
+
+const homeFaqs = [
+  {
+    q: "How do I book an escort in Mumbai?",
+    a: "Booking is simple — call or WhatsApp +91-9653203658. Share your preferred area in Mumbai and the type of companion you're looking for, and we'll confirm your booking within minutes.",
+  },
+  {
+    q: "Are Pink Bra escorts in Mumbai verified?",
+    a: "Yes. Every escort listed on Pink Bra is personally verified before joining our roster. We confirm identity, authenticity of photos, and professional conduct before approval.",
+  },
+  {
+    q: "Do you offer outcall escort services in Mumbai?",
+    a: "Yes. Our escorts provide both incall and outcall services. They can visit your hotel room, apartment, or any preferred location across Mumbai, including suburbs and Navi Mumbai.",
+  },
+  {
+    q: "How long does it take for an escort to arrive?",
+    a: "Most escorts can reach your location within 30 to 45 minutes of a confirmed booking, depending on traffic and your area in Mumbai.",
+  },
+  {
+    q: "Is my personal information kept private?",
+    a: "Absolutely. We never share, store, or sell client details. All bookings are handled with complete discretion and confidentiality.",
+  },
+  {
+    q: "What types of escort services are available in Mumbai?",
+    a: "We offer a wide range of services including VIP escorts, college companions, independent models, Russian escorts, celebrity experiences, and more — available 24 hours a day.",
+  },
+];
 
 export default function Home() {
   return (
@@ -165,30 +200,36 @@ export default function Home() {
 
       {/* FAQ */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">
             Frequently Asked Questions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              { q: "How do I book an escort?", a: "Simply browse our gallery, choose your preferred escort, and contact us via phone or WhatsApp to make a booking." },
-              { q: "Are your escorts verified?", a: "Yes, all our escorts are thoroughly verified and are genuine professionals in the industry." },
-              { q: "Do you provide outcall services?", a: "Yes, we provide both incall and outcall services. Our escorts can visit your hotel, home, or preferred location." },
-              { q: "Is my privacy protected?", a: "Absolutely. We maintain complete discretion and confidentiality for all our clients." },
-              { q: "What are your rates?", a: "Our rates vary depending on the escort and duration. Contact us for detailed pricing information." },
-              { q: "How quickly can an escort reach me?", a: "Typically, our escorts can reach your location within 45 minutes to 1 hour after booking confirmation." },
-            ].map((faq) => (
-              <div key={faq.q} className="bg-pink-50 p-6 rounded-lg border-l-4 border-pink-500">
-                <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
-                  <i className="fas fa-question-circle text-pink-500" aria-hidden="true"></i>
-                  {faq.q}
-                </h3>
-                <p className="text-gray-600">{faq.a}</p>
+          <p className="text-center text-gray-500 mb-12">Common questions about booking escorts in Mumbai</p>
+          <div className="space-y-4">
+            {homeFaqs.map((faq) => (
+              <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
+                <h3 className="text-lg font-bold text-gray-800 mb-3">{faq.q}</h3>
+                <p className="text-gray-600 leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: homeFaqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.q,
+              acceptedAnswer: { "@type": "Answer", text: faq.a },
+            })),
+          }),
+        }}
+      />
     </main>
   );
 }

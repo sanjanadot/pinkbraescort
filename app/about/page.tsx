@@ -1,9 +1,33 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | Pink Bra Escorts Mumbai - Premium Escort Service Since 2015",
+  title: "About Pink Bra Escorts Mumbai – Verified Companions Since 2015",
   description:
-    "Learn about Pink Bra Escorts Mumbai - Mumbai's #1 premium escort agency since 2015. 5000+ verified escorts, 100% safe, discreet service available 24/7.",
+    "Pink Bra Escorts has provided verified, professional companionship services in Mumbai since 2015. Learn about our standards, values, and commitment to discretion.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About Pink Bra Escorts Mumbai – Verified Companions Since 2015",
+    description: "Trusted escort agency in Mumbai since 2015. Verified companions, full discretion, 24/7 availability.",
+    url: "https://pinkbraescort.in/about",
+    type: "website",
+  },
+};
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About Pink Bra Escorts Mumbai",
+  url: "https://pinkbraescort.in/about",
+  description:
+    "Pink Bra Escorts is a trusted companionship agency in Mumbai, operating since 2015 with verified escorts, complete discretion, and professional service standards.",
+  publisher: {
+    "@type": "Organization",
+    name: "Pink Bra Escorts Mumbai",
+    url: "https://pinkbraescort.in",
+    telephone: "+919653203658",
+    foundingDate: "2015",
+    areaServed: { "@type": "City", name: "Mumbai" },
+  },
 };
 
 export default function AboutPage() {
@@ -85,6 +109,11 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
     </main>
   );
 }

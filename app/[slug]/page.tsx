@@ -114,17 +114,29 @@ export async function generateMetadata({
   if (parsed.kind === "service") {
     const { service } = parsed;
     return {
-      title: `${service.title} Mumbai | Pink Bra Escorts - Book Now`,
-      description: `Book ${service.title} in Mumbai. Verified, discreet and professional. 5000+ escorts available 24/7. Call +91-9653203658.`,
+      title: `${service.title} in Mumbai – Book Now`,
+      description: `${service.desc} in Mumbai. Verified, professional companions available 24/7 for incall and outcall. Call +91-9653203658 for same-day booking.`,
       alternates: { canonical: `/${slug}` },
+      openGraph: {
+        title: `${service.title} in Mumbai – Book Now`,
+        description: `${service.desc} available 24/7 in Mumbai. Verified and discreet.`,
+        url: `https://pinkbraescort.in/${slug}`,
+        type: "website",
+      },
     };
   }
 
   const { location, keyword } = parsed;
   return {
-    title: `${keyword} in ${location} Mumbai | Pink Bra - Book Now`,
-    description: `Book premium ${keyword.toLowerCase()} in ${location}, Mumbai. Verified, discreet and professional. Available 24/7. Call +91-9653203658.`,
+    title: `${keyword} in ${location}, Mumbai – Book Now`,
+    description: `Looking for ${keyword.toLowerCase()} in ${location}? Pink Bra offers verified, discreet companions available 24/7 in ${location}, Mumbai. Call +91-9653203658.`,
     alternates: { canonical: `/${slug}` },
+    openGraph: {
+      title: `${keyword} in ${location}, Mumbai – Book Now`,
+      description: `Verified ${keyword.toLowerCase()} in ${location}, Mumbai. Discreet, professional, available 24/7.`,
+      url: `https://pinkbraescort.in/${slug}`,
+      type: "website",
+    },
   };
 }
 
@@ -253,6 +265,78 @@ export default async function SlugPage({
             </div>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        {(() => {
+          const faqs = [
+            { q: `What is included in ${service.title} service in Mumbai?`, a: `Our ${service.title} service in Mumbai includes professional companionship for personal meetings, hotel visits, events, and more. All escorts are verified and maintain complete discretion throughout the experience.` },
+            { q: `How do I book ${service.title} in Mumbai?`, a: `Simply call or WhatsApp +91-9653203658. Share your location and preferred timing, and we will confirm your booking right away. Most bookings are confirmed within minutes.` },
+            { q: `Are ${service.title} available at night in Mumbai?`, a: `Yes. Our ${service.title} are available 24 hours a day, including late nights and weekends, across all Mumbai areas.` },
+            { q: `Do ${service.title} offer outcall service in Mumbai?`, a: `Yes. Our companions provide both incall and outcall services. They can visit your hotel, home, or any preferred location in Mumbai within 30 to 45 minutes of confirmation.` },
+            { q: `Is the ${service.title} booking completely private?`, a: `Absolutely. We operate with full discretion. Your personal details and booking information are never shared with any third party.` },
+          ];
+          return (
+            <>
+              <section className="py-16 bg-white">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+                    Frequently Asked Questions — {service.title} Mumbai
+                  </h2>
+                  <div className="space-y-4">
+                    {faqs.map((faq) => (
+                      <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
+                        <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
+                        <p className="text-gray-600 leading-relaxed">{faq.a}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify([
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      itemListElement: [
+                        { "@type": "ListItem", position: 1, name: "Home", item: "https://pinkbraescort.in" },
+                        { "@type": "ListItem", position: 2, name: "Services", item: "https://pinkbraescort.in/services" },
+                        { "@type": "ListItem", position: 3, name: service.title, item: `https://pinkbraescort.in/${slug}` },
+                      ],
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "Service",
+                      name: `${service.title} in Mumbai`,
+                      description: `${service.desc} — professional, verified companions available 24/7 in Mumbai.`,
+                      provider: {
+                        "@type": "LocalBusiness",
+                        name: "Pink Bra Escorts Mumbai",
+                        telephone: "+919653203658",
+                        url: "https://pinkbraescort.in",
+                      },
+                      areaServed: { "@type": "City", name: "Mumbai" },
+                      availableChannel: {
+                        "@type": "ServiceChannel",
+                        servicePhone: { "@type": "ContactPoint", telephone: "+919653203658", contactType: "customer service" },
+                      },
+                    },
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "FAQPage",
+                      mainEntity: faqs.map((faq) => ({
+                        "@type": "Question",
+                        name: faq.q,
+                        acceptedAnswer: { "@type": "Answer", text: faq.a },
+                      })),
+                    },
+                  ]),
+                }}
+              />
+            </>
+          );
+        })()}
       </main>
     );
   }
@@ -401,6 +485,79 @@ export default async function SlugPage({
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      {(() => {
+        const faqs = [
+          { q: `How do I book ${keyword.toLowerCase()} in ${location}, Mumbai?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We'll confirm your booking within minutes and arrange the companion of your choice.` },
+          { q: `Are ${keyword.toLowerCase()} available late at night in ${location}?`, a: `Yes. Our ${keyword.toLowerCase()} in ${location} are available round the clock — including late nights, weekends, and holidays.` },
+          { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions can visit your hotel room, apartment, or any location in and around ${location}, Mumbai.` },
+          { q: `How long does it take for a companion to arrive in ${location}?`, a: `After booking confirmation, companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area.` },
+          { q: `Is booking ${keyword.toLowerCase()} in ${location} discreet?`, a: `Yes, completely. All bookings are handled with strict confidentiality. Your personal information is never shared or stored beyond the booking process.` },
+        ];
+        const prefix = isCallGirls ? "call-girls" : "escorts";
+        return (
+          <>
+            <section className="py-16 bg-white">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+                  FAQs — {keyword} in {location}
+                </h2>
+                <div className="space-y-4">
+                  {faqs.map((faq) => (
+                    <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
+                      <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
+                      <p className="text-gray-600 leading-relaxed">{faq.a}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify([
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "BreadcrumbList",
+                    itemListElement: [
+                      { "@type": "ListItem", position: 1, name: "Home", item: "https://pinkbraescort.in" },
+                      { "@type": "ListItem", position: 2, name: "Mumbai", item: "https://pinkbraescort.in/escorts-mumbai" },
+                      { "@type": "ListItem", position: 3, name: `${keyword} in ${location}`, item: `https://pinkbraescort.in/${prefix}-${toSlug(location)}` },
+                    ],
+                  },
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "Service",
+                    name: `${keyword} in ${location}, Mumbai`,
+                    description: `Verified, discreet ${keyword.toLowerCase()} in ${location}, Mumbai. Available 24/7 for incall and outcall bookings.`,
+                    provider: {
+                      "@type": "LocalBusiness",
+                      name: "Pink Bra Escorts Mumbai",
+                      telephone: "+919653203658",
+                      url: "https://pinkbraescort.in",
+                    },
+                    areaServed: { "@type": "Place", name: `${location}, Mumbai` },
+                    availableChannel: {
+                      "@type": "ServiceChannel",
+                      servicePhone: { "@type": "ContactPoint", telephone: "+919653203658", contactType: "customer service" },
+                    },
+                  },
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    mainEntity: faqs.map((faq) => ({
+                      "@type": "Question",
+                      name: faq.q,
+                      acceptedAnswer: { "@type": "Answer", text: faq.a },
+                    })),
+                  },
+                ]),
+              }}
+            />
+          </>
+        );
+      })()}
     </main>
   );
 }

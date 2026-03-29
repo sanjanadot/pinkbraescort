@@ -1,9 +1,49 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Pink Bra Escorts Mumbai - Book Now",
+  title: "Contact Pink Bra Escorts Mumbai – Call or WhatsApp to Book",
   description:
-    "Contact Pink Bra Escorts Mumbai. Call or WhatsApp +91-9653203658 to book premium escorts in Mumbai. Available 24/7 across all Mumbai locations.",
+    "Contact Pink Bra Escorts Mumbai by phone or WhatsApp at +91-9653203658. Available 24/7 to arrange verified companions across all Mumbai areas.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact Pink Bra Escorts Mumbai – Call or WhatsApp to Book",
+    description: "Reach us 24/7 on +91-9653203658. Quick, discreet booking for escorts across all Mumbai areas.",
+    url: "https://pinkbraescort.in/contact",
+    type: "website",
+  },
+};
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact Pink Bra Escorts Mumbai",
+  url: "https://pinkbraescort.in/contact",
+  mainEntity: {
+    "@type": "LocalBusiness",
+    name: "Pink Bra Escorts Mumbai",
+    telephone: "+919653203658",
+    email: "sanjanadotsingh@gmail.com",
+    url: "https://pinkbraescort.in",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Mumbai",
+      addressRegion: "Maharashtra",
+      addressCountry: "IN",
+    },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      opens: "00:00",
+      closes: "23:59",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+919653203658",
+      contactType: "customer service",
+      availableLanguage: ["English", "Hindi"],
+      contactOption: "TollFree",
+    },
+  },
 };
 
 export default function ContactPage() {
@@ -101,6 +141,11 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
+      />
     </main>
   );
 }
