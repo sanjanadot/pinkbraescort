@@ -397,18 +397,67 @@ export default async function SlugPage({
         </section>
 
         {/* ── FAQ + SCHEMA ── */}
-        <section className="py-16 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-              Frequently Asked Questions — {service.title} Mumbai
-            </h2>
-            <div className="space-y-4">
-              {faqs.map((faq) => (
-                <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
-                  <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
-                  <p className="text-gray-600 leading-relaxed">{faq.a}</p>
-                </div>
-              ))}
+        <section className="py-20 bg-gradient-to-br from-pink-50 via-rose-50 to-white relative overflow-hidden">
+          {/* decorative blobs */}
+          <div className="absolute -top-24 -left-24 w-80 h-80 bg-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none" aria-hidden="true" />
+          <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-rose-200 rounded-full opacity-20 blur-3xl pointer-events-none" aria-hidden="true" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* heading */}
+            <div className="text-center mb-14">
+              <span className="inline-block bg-pink-100 text-pink-600 text-sm font-semibold px-4 py-1 rounded-full mb-3 tracking-wide uppercase">
+                Got Questions?
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
+                Frequently Asked Questions
+              </h2>
+              <p className="mt-3 text-gray-500 max-w-xl mx-auto">
+                Everything you need to know about {service.title} in Mumbai — answered.
+              </p>
+            </div>
+            {/* 2-column grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              {/* left column — first 6 */}
+              <div className="space-y-4">
+                {faqs.slice(0, 6).map((faq, i) => (
+                  <div
+                    key={faq.q}
+                    className="group bg-white rounded-2xl shadow-sm border border-pink-100 p-6 hover:shadow-md hover:border-pink-300 transition-all duration-300"
+                  >
+                    <div className="flex items-start gap-4">
+                      <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 text-white text-sm font-bold flex items-center justify-center shadow">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <h3 className="font-bold text-gray-800 mb-2 leading-snug group-hover:text-pink-600 transition-colors">
+                          {faq.q}
+                        </h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* right column — last 6 */}
+              <div className="space-y-4">
+                {faqs.slice(6).map((faq, i) => (
+                  <div
+                    key={faq.q}
+                    className="group bg-white rounded-2xl shadow-sm border border-pink-100 p-6 hover:shadow-md hover:border-pink-300 transition-all duration-300"
+                  >
+                    <div className="flex items-start gap-4">
+                      <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 text-white text-sm font-bold flex items-center justify-center shadow">
+                        {i + 7}
+                      </span>
+                      <div>
+                        <h3 className="font-bold text-gray-800 mb-2 leading-snug group-hover:text-pink-600 transition-colors">
+                          {faq.q}
+                        </h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -670,18 +719,62 @@ export default async function SlugPage({
       </section>
 
       {/* ── FAQ + SCHEMA ── */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-            FAQs — {keyword} in {location}
-          </h2>
-          <div className="space-y-4">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
-                <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
-                <p className="text-gray-600 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+      <section className="py-20 bg-gradient-to-br from-pink-50 via-rose-50 to-white relative overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-80 h-80 bg-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none" aria-hidden="true" />
+        <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-rose-200 rounded-full opacity-20 blur-3xl pointer-events-none" aria-hidden="true" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-14">
+            <span className="inline-block bg-pink-100 text-pink-600 text-sm font-semibold px-4 py-1 rounded-full mb-3 tracking-wide uppercase">
+              Got Questions?
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
+              Frequently Asked Questions
+            </h2>
+            <p className="mt-3 text-gray-500 max-w-xl mx-auto">
+              Everything you need to know about {keyword} in {location} — answered.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="space-y-4">
+              {faqs.slice(0, 6).map((faq, i) => (
+                <div
+                  key={faq.q}
+                  className="group bg-white rounded-2xl shadow-sm border border-pink-100 p-6 hover:shadow-md hover:border-pink-300 transition-all duration-300"
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 text-white text-sm font-bold flex items-center justify-center shadow">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <h3 className="font-bold text-gray-800 mb-2 leading-snug group-hover:text-pink-600 transition-colors">
+                        {faq.q}
+                      </h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-4">
+              {faqs.slice(6).map((faq, i) => (
+                <div
+                  key={faq.q}
+                  className="group bg-white rounded-2xl shadow-sm border border-pink-100 p-6 hover:shadow-md hover:border-pink-300 transition-all duration-300"
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 text-white text-sm font-bold flex items-center justify-center shadow">
+                      {i + 7}
+                    </span>
+                    <div>
+                      <h3 className="font-bold text-gray-800 mb-2 leading-snug group-hover:text-pink-600 transition-colors">
+                        {faq.q}
+                      </h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
