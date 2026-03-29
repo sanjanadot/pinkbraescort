@@ -177,11 +177,18 @@ export default async function SlugPage({
     const { service } = parsed;
     const otherServices = services.filter((s) => s.slug !== slug);
     const faqs = [
-      { q: `What is included in ${service.title} service in Mumbai?`, a: `Our ${service.title} service in Mumbai includes professional companionship for personal meetings, hotel visits, events, and more. All escorts are verified and maintain complete discretion.` },
-      { q: `How do I book ${service.title} in Mumbai?`, a: `Simply call or WhatsApp +91-9653203658. Share your location and preferred timing and we will confirm your booking within minutes.` },
-      { q: `Are ${service.title} available at night in Mumbai?`, a: `Yes. Our ${service.title} are available 24 hours a day, including late nights and weekends, across all Mumbai areas.` },
-      { q: `Do ${service.title} offer outcall service in Mumbai?`, a: `Yes. Companions provide both incall and outcall services and can visit your hotel, home, or any location in Mumbai within 30 to 45 minutes.` },
-      { q: `Is the ${service.title} booking completely private?`, a: `Absolutely. We operate with full discretion. Your personal details and booking information are never shared with any third party.` },
+      { q: `What is included in ${service.title} service in Mumbai?`, a: `Our ${service.title} service in Mumbai includes professional companionship for personal meetings, hotel visits, events, dinner dates and overnight stays. All escorts are personally verified and maintain complete discretion at all times.` },
+      { q: `How do I book ${service.title} in Mumbai?`, a: `Simply call or WhatsApp +91-9653203658. Share your preferred location and timing and we will confirm your booking within minutes, any time of the day or night.` },
+      { q: `Are ${service.title} available at night in Mumbai?`, a: `Yes. Our ${service.title} are available 24 hours a day, 7 days a week, including late nights, weekends and public holidays, across all Mumbai areas.` },
+      { q: `Do ${service.title} offer outcall service in Mumbai?`, a: `Yes. Companions provide both incall and outcall services and can visit your hotel room, home, or any location in Mumbai within 30 to 45 minutes of confirmation.` },
+      { q: `Is the ${service.title} booking completely private?`, a: `Absolutely. We operate with full discretion. Your personal details and booking information are never shared with any third party under any circumstances.` },
+      { q: `What areas in Mumbai are covered by ${service.title}?`, a: `We cover all Mumbai areas including Andheri, Bandra, Juhu, Powai, Colaba, Worli, Thane, Navi Mumbai, Borivali, Malad, Goregaon, Kurla and all surrounding suburbs.` },
+      { q: `How much does ${service.title} cost in Mumbai?`, a: `Rates vary depending on duration and requirements. Contact us on +91-9653203658 for a personalized quote. All pricing is transparent with no hidden charges.` },
+      { q: `Are the ${service.title} companions genuinely verified?`, a: `Yes. Every escort offering ${service.title} in Mumbai is personally interviewed and verified by our team before joining our roster. All profile photos are genuine and up to date.` },
+      { q: `Can I choose a specific companion for ${service.title}?`, a: `Yes. Describe your preferences — appearance, personality, language — and we will match you with the ideal companion from our verified ${service.title} roster.` },
+      { q: `Is ${service.title} available at hotels in Mumbai?`, a: `Yes. Our companions are experienced at hotel visits and handle lobby and reception professionally. Both 3-star and 5-star hotel visits are fully supported across Mumbai.` },
+      { q: `How far in advance should I book ${service.title} in Mumbai?`, a: `Same-day and last-minute bookings are accepted. For a specific companion we recommend booking at least 2 hours in advance. Late-night and weekend slots fill quickly.` },
+      { q: `What makes Pink Bra Escorts the best for ${service.title} in Mumbai?`, a: `Pink Bra Escorts has operated in Mumbai since 2015 with over 5,000 verified companions, a 4.9-star rating, guaranteed 30-minute arrival and complete confidentiality on every booking.` },
     ];
 
     return (
@@ -449,11 +456,18 @@ export default async function SlugPage({
   const prefix = isCallGirls ? "call-girls" : "escorts";
 
   const faqs = [
-    { q: `How do I book ${keyword.toLowerCase()} in ${location}, Mumbai?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We confirm bookings within minutes and arrange the companion of your choice.` },
-    { q: `Are ${keyword.toLowerCase()} available late at night in ${location}?`, a: `Yes. Our ${keyword.toLowerCase()} in ${location} are available round the clock — including late nights, weekends and holidays.` },
-    { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions visit your hotel room, apartment or any location in and around ${location}, Mumbai.` },
-    { q: `How long does it take for a companion to arrive in ${location}?`, a: `After booking confirmation companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area.` },
+    { q: `How do I book ${keyword.toLowerCase()} in ${location}, Mumbai?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We confirm bookings within minutes and arrange the companion of your choice, any time of day or night.` },
+    { q: `Are ${keyword.toLowerCase()} available late at night in ${location}?`, a: `Yes. Our ${keyword.toLowerCase()} in ${location} are available round the clock — including late nights, weekends and public holidays. There is no time restriction on bookings.` },
+    { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions visit your hotel room, serviced apartment or any location in and around ${location}, Mumbai. All hotels are supported.` },
+    { q: `How long does it take for a companion to arrive in ${location}?`, a: `After booking confirmation companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area of Mumbai.` },
     { q: `Is booking ${keyword.toLowerCase()} in ${location} discreet?`, a: `Yes, completely. All bookings are handled with strict confidentiality. Your personal information is never shared or stored beyond the booking process.` },
+    { q: `What is the cost of ${keyword.toLowerCase()} in ${location}?`, a: `Rates depend on duration, service type and companion selection. Call +91-9653203658 for a personalised quote with full transparency and no hidden charges.` },
+    { q: `Are all ${keyword.toLowerCase()} in ${location} verified?`, a: `Yes. Every companion serving ${location} is personally interviewed and profile-verified by our team. All photos are genuine, recent and unedited.` },
+    { q: `Can I request a specific type of companion in ${location}?`, a: `Absolutely. Share your preferences — appearance, language spoken, personality — and we will match you with the ideal companion from our ${location} roster.` },
+    { q: `Do you offer same-day ${keyword.toLowerCase()} bookings in ${location}?`, a: `Yes. Same-day and last-minute bookings are accepted in ${location}. For a specific companion a 2-hour advance notice is recommended, though we always do our best.` },
+    { q: `Are both incall and outcall options available in ${location}?`, a: `Yes. Incall locations near ${location} are available for convenience, and outcall service covers your hotel, home or office anywhere in the ${location} area of Mumbai.` },
+    { q: `What services are available with ${keyword.toLowerCase()} in ${location}?`, a: `Companions in ${location} offer personal meetings, dinner dates, event accompaniment, overnight stays and more. All services are tailored to your preferences and boundaries.` },
+    { q: `Why choose Pink Bra Escorts for ${keyword.toLowerCase()} in ${location}?`, a: `Pink Bra Escorts has served Mumbai since 2015 with 5,000+ verified companions across all areas including ${location}. We offer a 4.9-star rated service with guaranteed 30-minute arrival and full privacy on every booking.` },
   ];
 
   return (
