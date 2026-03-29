@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { blogPosts } from "@/lib/blog-posts";
 
 const BASE_URL = "https://pinkbraescort.in";
 
@@ -103,5 +104,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...servicePages, ...escortPages, ...callGirlPages];
+  // Blog pages
+  const blogStaticPages: MetadataRoute.Sitemap = [
+    { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
+    { url: `${BASE_URL}/blog/submit`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },
+  ];
+  const blogPostPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+  const blogPages = [...blogStaticPages, ...blogPostPages];
+
+  return [...staticPages, ...servicePages, ...escortPages, ...callGirlPages, ...blogPages];
 }
