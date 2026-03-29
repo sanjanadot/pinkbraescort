@@ -46,20 +46,38 @@ const services = [
 ];
 
 const locations = [
+  // Mumbai — prime areas
   "Andheri", "Bandra", "Juhu", "Powai", "Lower Parel", "Worli", "Colaba", "Fort",
-  "Thane", "Navi Mumbai", "Airoli", "Ambernath", "Belapur", "Bhandup", "Bhayandar",
-  "Bhiwandi", "Borivali", "Byculla", "Chembur", "Churchgate", "Dadar", "Dombivli",
-  "Ghatkopar", "Goregaon", "Jogeshwari", "Kalyan", "Kandivali", "Khar", "Kharghar",
-  "Kurla", "Malad", "Marine Lines", "Mira Road", "Mulund", "Panvel", "Santacruz",
-  "Vasai", "Vashi", "Versova", "Virar", "Ambivali", "Asangaon", "Badlapur", "Boisar",
-  "Charni Road", "Chinchpokli", "Chuna Bhatti", "CST", "Diva", "Ghansoli",
-  "Ghodbunder Road", "Govandi", "Grant Road", "Juinagar", "Kalamboli", "Kalwa",
-  "Kanjurmarg", "Karjat", "Kasara", "Kamothe", "Khopoli", "Kopar Khairane",
-  "Lokhandwala", "Mahim", "Masjid Bandar", "Mumbai Airport", "Mumbai Central",
-  "Mumbai", "Mumbra", "Nahur", "Naigaon", "Nalasopara", "Nariman Point", "Neral",
-  "Nerul", "Palghar", "Parel", "Prabhadevi", "Rabale", "Sakinaka", "Sanpada",
-  "Saphale", "Seawoods", "Sion", "Taloja", "Thakurli", "Titwala", "Ulhasnagar",
-  "Ulwe", "Vidyavihar", "Vikhroli", "Vile Parle", "Wadala",
+  "Churchgate", "Nariman Point", "Dadar", "Mahim", "Mahalaxmi", "Parel", "Prabhadevi",
+  "Santacruz", "Versova", "Lokhandwala", "Goregaon", "Malad", "Kandivali", "Borivali",
+  "Khar", "Khar Road", "Byculla", "Chembur", "Ghatkopar", "Kurla", "Sakinaka",
+  "Vikhroli", "Kanjurmarg", "Vidyavihar", "Sion", "Masjid Bandar", "Charni Road",
+  "Grant Road", "Mumbai Central", "Marine Lines", "CST", "Chinchpokli", "Govandi",
+  "Mankhurd", "Wadala", "Jogeshwari", "Bhandup", "Mulund", "Nahur", "Ghansoli",
+  "Matunga", "Baba", "Mumbai Airport", "Mumbai",
+  // Thane & suburbs
+  "Thane", "Bhiwandi", "Dombivli", "Kalyan", "Ambernath", "Badlapur", "Titwala",
+  "Thakurli", "Ulhasnagar", "Diva", "Ambivali", "Asangaon", "Kasara", "Karjat",
+  "Khopoli", "Boisar", "Palghar", "Saphale",
+  // Navi Mumbai
+  "Navi Mumbai", "Airoli", "Belapur", "Juinagar", "Kalamboli", "Kalwa",
+  "Kamothe", "Kharghar", "Kopar Khairane", "Nerul", "Panvel", "Rabale", "Sanpada",
+  "Seawood", "Seawoods", "Ulwe", "Vashi",
+  // Mumbai outskirts / Mira-Virar
+  "Bhayandar", "Mira Road", "Vasai", "Virar", "Naigaon", "Nalasopara", "Neral",
+  "Mumbra", "Ghodbunder Road", "Taloja", "Vile Parle",
+  // Maharashtra other cities
+  "Pune", "Nashik", "Nagpur", "Aurangabad",
+  // Pan-India cities
+  "Delhi", "Noida", "Gurgaon", "Agra", "Lucknow", "Kanpur", "Varanasi", "Patna",
+  "Jaipur", "Jodhpur", "Udaipur", "Ajmer",
+  "Ahmedabad", "Surat", "Rajkot", "Vadodara",
+  "Bangalore", "Hyderabad", "Chennai", "Kochi", "Coimbatore", "Mysore",
+  "Mangalore", "Vijayawada", "Visakhapatnam",
+  "Kolkata", "Siliguri", "Guwahati",
+  "Chandigarh", "Ludhiana", "Jalandhar", "Amritsar",
+  "Bhopal", "Indore", "Gwalior",
+  "Goa", "Ranchi", "Bhubaneswar", "Dehradun",
 ];
 
 function toSlug(name: string) {
