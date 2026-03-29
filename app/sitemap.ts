@@ -125,7 +125,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Blog pages
   const blogStaticPages: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
-    { url: `${BASE_URL}/blog/submit`, lastModified: now, changeFrequency: "yearly", priority: 0.5 },
+    // /blog/submit intentionally excluded — disallowed in robots.txt
   ];
   const blogPostPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
