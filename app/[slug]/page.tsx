@@ -60,14 +60,14 @@ const locations = [
   // Thane & suburbs
   "Thane", "Bhiwandi", "Dombivli", "Kalyan", "Ambernath", "Badlapur", "Titwala",
   "Thakurli", "Ulhasnagar", "Diva", "Ambivali", "Asangaon", "Kasara", "Karjat",
-  "Khopoli", "Boisar", "Palghar", "Saphale", "Nahur",
+  "Khopoli", "Boisar", "Palghar", "Saphale",
   // Navi Mumbai
-  "Navi Mumbai", "Airoli", "Belapur", "Ghansoli", "Juinagar", "Kalamboli", "Kalwa",
+  "Navi Mumbai", "Airoli", "Belapur", "Juinagar", "Kalamboli", "Kalwa",
   "Kamothe", "Kharghar", "Kopar Khairane", "Nerul", "Panvel", "Rabale", "Sanpada",
-  "Seawood", "Seawoods", "Ulwe", "Vashi",
+  "Seawood", "Ulwe", "Vashi",
   // Mumbai outskirts / Mira-Virar
   "Bhayandar", "Mira Road", "Vasai", "Virar", "Naigaon", "Nalasopara", "Neral",
-  "Mumbra", "Ghodbunder Road", "Lokhandwala", "Taloja", "Vile Parle",
+  "Mumbra", "Ghodbunder Road", "Taloja", "Vile Parle",
   // Maharashtra other cities
   "Pune", "Nashik", "Nagpur", "Aurangabad",
   // Pan-India cities
@@ -130,6 +130,7 @@ export async function generateMetadata({
 
   if (parsed.kind === "service") {
     const { service } = parsed;
+    const ogImage = `https://pinkbraescort.in/images/services/${service.img}`;
     return {
       title: `${service.title} in Mumbai – Book Now`,
       description: `${service.desc} in Mumbai. Verified, professional companions available 24/7 for incall and outcall. Call +91-9653203658 for same-day booking.`,
@@ -139,11 +140,19 @@ export async function generateMetadata({
         description: `${service.desc} available 24/7 in Mumbai. Verified and discreet.`,
         url: `https://pinkbraescort.in/${slug}`,
         type: "website",
+        images: [{ url: ogImage, width: 1200, height: 630, alt: `${service.title} Mumbai` }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${service.title} in Mumbai – Book Now`,
+        description: `${service.desc} available 24/7 in Mumbai. Verified and discreet.`,
+        images: [ogImage],
       },
     };
   }
 
   const { location, keyword } = parsed;
+  const ogImage = `https://pinkbraescort.in/images/services/default-escort.webp`;
   return {
     title: `${keyword} in ${location}, Mumbai – Book Now`,
     description: `Looking for ${keyword.toLowerCase()} in ${location}? Pink Bra offers verified, discreet companions available 24/7 in ${location}, Mumbai. Call +91-9653203658.`,
@@ -153,6 +162,13 @@ export async function generateMetadata({
       description: `Verified ${keyword.toLowerCase()} in ${location}, Mumbai. Discreet, professional, available 24/7.`,
       url: `https://pinkbraescort.in/${slug}`,
       type: "website",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${keyword} in ${location} Mumbai` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${keyword} in ${location}, Mumbai – Book Now`,
+      description: `Verified ${keyword.toLowerCase()} in ${location}, Mumbai. Discreet, professional, available 24/7.`,
+      images: [ogImage],
     },
   };
 }

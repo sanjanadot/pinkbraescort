@@ -62,7 +62,7 @@ const locations = [
   // Navi Mumbai
   "Navi Mumbai", "Airoli", "Belapur", "Juinagar", "Kalamboli", "Kalwa",
   "Kamothe", "Kharghar", "Kopar Khairane", "Nerul", "Panvel", "Rabale", "Sanpada",
-  "Seawood", "Seawoods", "Ulwe", "Vashi",
+  "Seawood", "Ulwe", "Vashi",
   // Mumbai outskirts / Mira-Virar
   "Bhayandar", "Mira Road", "Vasai", "Virar", "Naigaon", "Nalasopara", "Neral",
   "Mumbra", "Ghodbunder Road", "Taloja", "Vile Parle",
