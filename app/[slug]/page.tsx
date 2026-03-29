@@ -3,9 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-/* ─────────────────────────────────────────────
-   Service data
-───────────────────────────────────────────── */
+/* ── Services ── */
 const services = [
   { slug: "vip-escorts-mumbai", title: "VIP Escorts", desc: "Premium VIP Service", badge: "VIP", img: "vip-escorts-mumbai.webp" },
   { slug: "celebrity-escorts-mumbai", title: "Celebrity Escorts", desc: "Star-Like Escorts", badge: "CELEBRITY", img: "celebrity-escorts-mumbai.webp" },
@@ -40,15 +38,15 @@ const services = [
   { slug: "independent-model-escorts", title: "Independent Models", desc: "Independent professional models", badge: "MODEL", img: "independent-model-escorts.webp" },
   { slug: "expert-escorts-mumbai", title: "Expert Services", desc: "Professional expert service providers", badge: "EXPERT", img: "expert-escorts-mumbai.webp" },
   { slug: "big-boobs-escorts-mumbai", title: "Busty Escorts", desc: "Voluptuous escorts with curves", badge: "BUSTY", img: "big-boobs-escorts-mumbai.webp" },
-  { slug: "unsatisfied-bhabhi-mumbai", title: "Unsatisfied Bhabhi", desc: "Unsatisfied married women escorts", badge: "BHABHI", img: "unsatisfied-bhabhi-mumbai.webp" },
-  { slug: "unsatisfied-female-mumbai", title: "Unsatisfied Females", desc: "Unsatisfied women seeking companionship", badge: "FEMALE", img: "unsatisfied-female-mumbai.webp" },
+  { slug: "unsatisfied-bhabhi-mumbai", title: "Unsatisfied Bhabhi", desc: "Mature married women escorts", badge: "BHABHI", img: "unsatisfied-bhabhi-mumbai.webp" },
+  { slug: "unsatisfied-female-mumbai", title: "Unsatisfied Females", desc: "Women seeking companionship", badge: "FEMALE", img: "unsatisfied-female-mumbai.webp" },
   { slug: "special-companionship-mumbai", title: "Special Companionship", desc: "Unique special companionship services", badge: "SPECIAL", img: "special-companionship-mumbai.webp" },
+  { slug: "special-escorts-mumbai", title: "Special Escorts", desc: "Special escort services in Mumbai", badge: "SPECIAL", img: "special-companionship-mumbai.webp" },
+  { slug: "hj-bj-expert-escorts-mumbai", title: "HJ BJ Expert Escorts", desc: "Expert intimate escorts in Mumbai", badge: "EXPERT", img: "expert-escorts-mumbai.webp" },
   { slug: "pink-tits-mumbai", title: "Pink Escorts", desc: "Beautiful Pink Bra escorts", badge: "PINK", img: "pink-tits-mumbai.webp" },
 ];
 
-/* ─────────────────────────────────────────────
-   Location data
-───────────────────────────────────────────── */
+/* ── Locations ── */
 const locations = [
   "Andheri", "Bandra", "Juhu", "Powai", "Lower Parel", "Worli", "Colaba", "Fort",
   "Thane", "Navi Mumbai", "Airoli", "Ambernath", "Belapur", "Bhandup", "Bhayandar",
@@ -58,11 +56,12 @@ const locations = [
   "Vasai", "Vashi", "Versova", "Virar", "Ambivali", "Asangaon", "Badlapur", "Boisar",
   "Charni Road", "Chinchpokli", "Chuna Bhatti", "CST", "Diva", "Ghansoli",
   "Ghodbunder Road", "Govandi", "Grant Road", "Juinagar", "Kalamboli", "Kalwa",
-  "Kanjurmarg", "Karjat", "Kasara", "Khopoli", "Kopar Khairane", "Lokhandwala",
-  "Mahim", "Masjid Bandar", "Mumbai Airport", "Mumbai Central", "Mumbai", "Mumbra",
-  "Nahur", "Naigaon", "Nalasopara", "Nariman Point", "Neral", "Nerul", "Palghar",
-  "Parel", "Prabhadevi", "Rabale", "Sakinaka", "Sanpada", "Saphale", "Seawoods",
-  "Sion", "Thakurli", "Titwala", "Ulhasnagar", "Ulwe", "Vidyavihar", "Vikhroli",
+  "Kanjurmarg", "Karjat", "Kasara", "Kamothe", "Kharghar", "Khopoli",
+  "Kopar Khairane", "Lokhandwala", "Mahim", "Masjid Bandar", "Mumbai Airport",
+  "Mumbai Central", "Mumbai", "Mumbra", "Nahur", "Naigaon", "Nalasopara",
+  "Nariman Point", "Neral", "Nerul", "Palghar", "Parel", "Prabhadevi", "Rabale",
+  "Sakinaka", "Sanpada", "Saphale", "Seawoods", "Sion", "Taloja", "Thakurli",
+  "Titwala", "Ulhasnagar", "Ulwe", "Vasai", "Vidyavihar", "Vikhroli",
   "Vile Parle", "Wadala",
 ];
 
@@ -70,73 +69,80 @@ function toSlug(name: string) {
   return name.toLowerCase().replace(/\s+/g, "-");
 }
 
-const locationMap = new Map(
-  locations.map((loc) => [`escorts-${toSlug(loc)}`, loc])
-);
-
+/* ── Lookup maps ── */
 const serviceMap = new Map(services.map((s) => [s.slug, s]));
+const locationByPart = new Map(locations.map((loc) => [toSlug(loc), loc]));
 
-/* ─────────────────────────────────────────────
-   Static params for build-time optimization
-───────────────────────────────────────────── */
-export function generateStaticParams() {
-  const serviceSlugs = services.map((s) => ({ slug: s.slug }));
-  const locationSlugs = locations.map((loc) => ({ slug: `escorts-${toSlug(loc)}` }));
-  return [...serviceSlugs, ...locationSlugs];
+/* ── Slug parser ── */
+type Parsed =
+  | { kind: "service"; service: (typeof services)[number] }
+  | { kind: "location"; location: string; keyword: "Escorts" | "Call Girls" };
+
+function parseSlug(slug: string): Parsed | null {
+  const service = serviceMap.get(slug);
+  if (service) return { kind: "service", service };
+
+  if (slug.startsWith("escorts-")) {
+    const loc = locationByPart.get(slug.slice(8));
+    if (loc) return { kind: "location", location: loc, keyword: "Escorts" };
+  }
+  if (slug.startsWith("call-girls-")) {
+    const loc = locationByPart.get(slug.slice(11));
+    if (loc) return { kind: "location", location: loc, keyword: "Call Girls" };
+  }
+  return null;
 }
 
-/* ─────────────────────────────────────────────
-   Metadata
-───────────────────────────────────────────── */
+/* ── Static params ── */
+export function generateStaticParams() {
+  const serviceSlugs = services.map((s) => ({ slug: s.slug }));
+  const escortSlugs = locations.map((loc) => ({ slug: `escorts-${toSlug(loc)}` }));
+  const callGirlSlugs = locations.map((loc) => ({ slug: `call-girls-${toSlug(loc)}` }));
+  return [...serviceSlugs, ...escortSlugs, ...callGirlSlugs];
+}
+
+/* ── Metadata ── */
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const service = serviceMap.get(slug);
-  const locationName = locationMap.get(slug);
+  const parsed = parseSlug(slug);
+  if (!parsed) return { title: "Pink Bra Escorts Mumbai" };
 
-  if (service) {
+  if (parsed.kind === "service") {
+    const { service } = parsed;
     return {
       title: `${service.title} Mumbai | Pink Bra Escorts - Book Now`,
-      description: `Book ${service.title} in Mumbai with Pink Bra Escorts. Verified, discreet and professional. 5000+ escorts available 24/7. Call +91-9653203658.`,
+      description: `Book ${service.title} in Mumbai. Verified, discreet and professional. 5000+ escorts available 24/7. Call +91-9653203658.`,
       alternates: { canonical: `/${slug}` },
     };
   }
 
-  if (locationName) {
-    return {
-      title: `Escorts in ${locationName} Mumbai | Pink Bra Escorts - Book Now`,
-      description: `Book premium escorts in ${locationName}, Mumbai with Pink Bra Escorts. Verified, discreet and professional. Available 24/7. Call +91-9653203658.`,
-      alternates: { canonical: `/${slug}` },
-    };
-  }
-
-  return { title: "Pink Bra Escorts Mumbai" };
+  const { location, keyword } = parsed;
+  return {
+    title: `${keyword} in ${location} Mumbai | Pink Bra - Book Now`,
+    description: `Book premium ${keyword.toLowerCase()} in ${location}, Mumbai. Verified, discreet and professional. Available 24/7. Call +91-9653203658.`,
+    alternates: { canonical: `/${slug}` },
+  };
 }
 
-/* ─────────────────────────────────────────────
-   Page Component
-───────────────────────────────────────────── */
+/* ── Page ── */
 export default async function SlugPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = serviceMap.get(slug);
-  const locationName = locationMap.get(slug);
+  const parsed = parseSlug(slug);
+  if (!parsed) notFound();
 
-  if (!service && !locationName) {
-    notFound();
-  }
-
-  /* ── Service Page ── */
-  if (service) {
+  /* ── Service page ── */
+  if (parsed.kind === "service") {
+    const { service } = parsed;
     return (
       <main className="pt-20">
-        {/* Hero */}
         <section className="py-20 bg-gradient-to-r from-pink-500 to-rose-600 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <span className="bg-white/20 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4 inline-block">
@@ -149,25 +155,16 @@ export default async function SlugPage({
               {service.desc} — Verified, discreet and available 24/7 across all Mumbai locations.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <a
-                href="tel:+919653203658"
-                className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors"
-              >
+              <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
                 📞 Call Now
               </a>
-              <a
-                href="https://api.whatsapp.com/send?phone=919653203658"
-                rel="noopener noreferrer"
-                target="_blank"
-                className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors"
-              >
+              <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
                 💬 WhatsApp
               </a>
             </div>
           </div>
         </section>
 
-        {/* Content */}
         <section className="py-16 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -191,14 +188,12 @@ export default async function SlugPage({
                   providing an unforgettable experience.
                 </p>
                 <p className="text-gray-600 mb-4 leading-relaxed">
-                  All our {service.title.toLowerCase()} are available across Andheri, Bandra, Juhu,
-                  Powai, Thane, Navi Mumbai, and all major Mumbai locations. We provide both incall
-                  and outcall services.
+                  Available across Andheri, Bandra, Juhu, Powai, Thane, Navi Mumbai and all major
+                  Mumbai locations. We provide both incall and outcall services.
                 </p>
                 <p className="text-gray-600 mb-8 leading-relaxed">
-                  With over 5000+ verified escorts and 10+ years of experience, Pink Bra Escorts is
-                  Mumbai&apos;s most trusted name for premium escort services. Complete discretion is
-                  guaranteed for every booking.
+                  With 5000+ verified escorts and 10+ years of experience, Pink Bra Escorts is
+                  Mumbai&apos;s most trusted name. Complete discretion guaranteed for every booking.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   {[
@@ -214,16 +209,10 @@ export default async function SlugPage({
                   ))}
                 </div>
                 <div className="flex gap-4 flex-wrap">
-                  <a
-                    href="tel:+919653203658"
-                    className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors"
-                  >
+                  <a href="tel:+919653203658" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
                     Book Now — Call Us
                   </a>
-                  <Link
-                    href="/contact"
-                    className="border-2 border-pink-500 text-pink-500 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors"
-                  >
+                  <Link href="/contact" className="border-2 border-pink-500 text-pink-500 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
                     Contact Us
                   </Link>
                 </div>
@@ -232,57 +221,33 @@ export default async function SlugPage({
           </div>
         </section>
 
-        {/* Related Services */}
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-              More Escort Services in Mumbai
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">More Escort Services in Mumbai</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {services
-                .filter((s) => s.slug !== slug)
-                .slice(0, 12)
-                .map((s) => (
-                  <Link
-                    key={s.slug}
-                    href={`/${s.slug}`}
-                    className="bg-white border border-pink-100 hover:border-pink-400 hover:bg-pink-50 text-gray-700 text-center py-3 px-3 rounded-lg font-medium transition-all duration-200 text-sm"
-                  >
-                    {s.title}
-                  </Link>
-                ))}
+              {services.filter((s) => s.slug !== slug).slice(0, 12).map((s) => (
+                <Link key={s.slug} href={`/${s.slug}`} className="bg-white border border-pink-100 hover:border-pink-400 hover:bg-pink-50 text-gray-700 text-center py-3 px-3 rounded-lg font-medium transition-all duration-200 text-sm">
+                  {s.title}
+                </Link>
+              ))}
             </div>
             <div className="text-center mt-8">
-              <Link
-                href="/services"
-                className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors"
-              >
+              <Link href="/services" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
                 View All Services
               </Link>
             </div>
           </div>
         </section>
 
-        {/* CTA */}
         <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
           <div className="max-w-3xl mx-auto px-4">
             <h2 className="text-3xl font-bold mb-4">Book {service.title} Now</h2>
-            <p className="text-pink-100 mb-8 text-lg">
-              Available 24/7 across all Mumbai locations. Call or WhatsApp to book instantly.
-            </p>
+            <p className="text-pink-100 mb-8 text-lg">Available 24/7 across all Mumbai locations. Call or WhatsApp to book instantly.</p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <a
-                href="tel:+919653203658"
-                className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors"
-              >
+              <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
                 📞 +91-9653203658
               </a>
-              <a
-                href="https://api.whatsapp.com/send?phone=919653203658"
-                rel="noopener noreferrer"
-                target="_blank"
-                className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors"
-              >
+              <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
                 💬 WhatsApp Now
               </a>
             </div>
@@ -292,62 +257,55 @@ export default async function SlugPage({
     );
   }
 
-  /* ── Location Page ── */
+  /* ── Location / Call-Girls page ── */
+  const { location, keyword } = parsed;
+  const isCallGirls = keyword === "Call Girls";
+
   return (
     <main className="pt-20">
-      {/* Hero */}
       <section className="py-20 bg-gradient-to-r from-pink-500 to-rose-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Escorts in {locationName}, Mumbai
+            {keyword} in {location}, Mumbai
           </h1>
           <p className="text-xl text-pink-100 max-w-3xl mx-auto mb-8">
-            Premium verified escorts available in {locationName} and surrounding areas. 
+            Premium verified {keyword.toLowerCase()} available in {location} and surrounding areas.
             Discreet, professional and available 24/7.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a
-              href="tel:+919653203658"
-              className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors"
-            >
+            <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
               📞 Call Now
             </a>
-            <a
-              href="https://api.whatsapp.com/send?phone=919653203658"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors"
-            >
+            <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
               💬 WhatsApp
             </a>
           </div>
         </div>
       </section>
 
-      {/* Content */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">
-            Premium Escort Service in {locationName}
+            Premium {keyword} Service in {location}
           </h2>
           <p className="text-gray-600 mb-4 leading-relaxed text-lg">
-            Pink Bra Escorts provides Mumbai&apos;s finest escort services in{" "}
-            <strong>{locationName}</strong>. Whether you&apos;re staying at a hotel, at home, or
-            need an escort to accompany you for an event — our escorts are just a call away.
+            Pink Bra Escorts provides Mumbai&apos;s finest {keyword.toLowerCase()} in{" "}
+            <strong>{location}</strong>. Whether you&apos;re staying at a hotel, at home, or need
+            a companion for an event — we are just a call away.
           </p>
           <p className="text-gray-600 mb-4 leading-relaxed">
-            All escorts serving {locationName} are 100% verified, professional, and trained to
-            maintain complete discretion. We offer both incall and outcall services with a
-            guaranteed 30–45 minute arrival time.
+            All {keyword.toLowerCase()} serving {location} are 100% verified, professional, and
+            trained to maintain complete discretion. We offer both incall and outcall services
+            with a guaranteed 30–45 minute arrival time.
           </p>
           <p className="text-gray-600 mb-10 leading-relaxed">
             With 5000+ verified escorts and over 10 years of experience, Pink Bra Escorts is
-            Mumbai&apos;s most trusted escort agency. Book today and experience the difference.
+            Mumbai&apos;s most trusted agency. Book today and experience the difference.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
             {[
-              { icon: "fas fa-check-circle", title: "100% Verified Escorts", desc: "All escorts are personally verified before joining our roster" },
+              { icon: "fas fa-check-circle", title: "100% Verified", desc: "All escorts personally verified before joining our roster" },
               { icon: "fas fa-shield-alt", title: "Complete Discretion", desc: "Your identity and details are always kept private and secure" },
               { icon: "fas fa-clock", title: "24/7 Availability", desc: "Book any time of day or night, including weekends and holidays" },
               { icon: "fas fa-bolt", title: "Fast Arrival", desc: "Escorts arrive within 30–45 minutes of confirmed booking" },
@@ -365,35 +323,39 @@ export default async function SlugPage({
           </div>
 
           <div className="flex gap-4 flex-wrap">
-            <a
-              href="tel:+919653203658"
-              className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors"
-            >
+            <a href="tel:+919653203658" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
               Book Now — Call Us
             </a>
-            <Link
-              href="/services"
-              className="border-2 border-pink-500 text-pink-500 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors"
-            >
+            <Link href="/services" className="border-2 border-pink-500 text-pink-500 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
               Browse All Services
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Services Available */}
+      {/* Also available as: escorts / call-girls cross-link */}
+      <section className="py-8 bg-pink-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-gray-700">
+            Also see:{" "}
+            <Link
+              href={isCallGirls ? `/escorts-${toSlug(location)}` : `/call-girls-${toSlug(location)}`}
+              className="text-pink-600 font-semibold hover:underline"
+            >
+              {isCallGirls ? "Escorts" : "Call Girls"} in {location}
+            </Link>
+          </p>
+        </div>
+      </section>
+
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-            Services Available in {locationName}
+            Services Available in {location}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {services.slice(0, 12).map((s) => (
-              <Link
-                key={s.slug}
-                href={`/${s.slug}`}
-                className="bg-white border border-pink-100 hover:border-pink-400 hover:bg-pink-50 text-gray-700 text-center py-3 px-3 rounded-lg font-medium transition-all duration-200 text-sm"
-              >
+              <Link key={s.slug} href={`/${s.slug}`} className="bg-white border border-pink-100 hover:border-pink-400 hover:bg-pink-50 text-gray-700 text-center py-3 px-3 rounded-lg font-medium transition-all duration-200 text-sm">
                 {s.title}
               </Link>
             ))}
@@ -401,20 +363,19 @@ export default async function SlugPage({
         </div>
       </section>
 
-      {/* Other Locations */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-            Escorts in Other Mumbai Areas
+            {keyword} in Other Mumbai Areas
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {locations
-              .filter((loc) => loc !== locationName)
+              .filter((loc) => loc !== location)
               .slice(0, 20)
               .map((loc) => (
                 <Link
                   key={loc}
-                  href={`/escorts-${toSlug(loc)}`}
+                  href={isCallGirls ? `/call-girls-${toSlug(loc)}` : `/escorts-${toSlug(loc)}`}
                   className="bg-pink-500 hover:bg-pink-600 text-white text-center py-3 px-4 rounded-lg font-semibold transition-colors duration-300 block text-sm"
                 >
                   {loc}
@@ -424,28 +385,17 @@ export default async function SlugPage({
         </div>
       </section>
 
-      {/* CTA */}
       <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-4">
-            Book Escorts in {locationName} Now
-          </h2>
+          <h2 className="text-3xl font-bold mb-4">Book {keyword} in {location} Now</h2>
           <p className="text-pink-100 mb-8 text-lg">
-            Available 24/7 in {locationName} and all Mumbai areas. Call or WhatsApp to book instantly.
+            Available 24/7 in {location} and all Mumbai areas. Call or WhatsApp to book instantly.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <a
-              href="tel:+919653203658"
-              className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors"
-            >
+            <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
               📞 +91-9653203658
             </a>
-            <a
-              href="https://api.whatsapp.com/send?phone=919653203658"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors"
-            >
+            <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
               💬 WhatsApp Now
             </a>
           </div>
