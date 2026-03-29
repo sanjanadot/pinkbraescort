@@ -56,12 +56,12 @@ const locations = [
   "Vasai", "Vashi", "Versova", "Virar", "Ambivali", "Asangaon", "Badlapur", "Boisar",
   "Charni Road", "Chinchpokli", "Chuna Bhatti", "CST", "Diva", "Ghansoli",
   "Ghodbunder Road", "Govandi", "Grant Road", "Juinagar", "Kalamboli", "Kalwa",
-  "Kanjurmarg", "Karjat", "Kasara", "Kamothe", "Kharghar", "Khopoli",
+  "Kanjurmarg", "Karjat", "Kasara", "Kamothe", "Khopoli",
   "Kopar Khairane", "Lokhandwala", "Mahim", "Masjid Bandar", "Mumbai Airport",
   "Mumbai Central", "Mumbai", "Mumbra", "Nahur", "Naigaon", "Nalasopara",
   "Nariman Point", "Neral", "Nerul", "Palghar", "Parel", "Prabhadevi", "Rabale",
   "Sakinaka", "Sanpada", "Saphale", "Seawoods", "Sion", "Taloja", "Thakurli",
-  "Titwala", "Ulhasnagar", "Ulwe", "Vasai", "Vidyavihar", "Vikhroli",
+  "Titwala", "Ulhasnagar", "Ulwe", "Vidyavihar", "Vikhroli",
   "Vile Parle", "Wadala",
 ];
 
