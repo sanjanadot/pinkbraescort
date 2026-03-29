@@ -150,43 +150,99 @@ export default async function SlugPage({
   const parsed = parseSlug(slug);
   if (!parsed) notFound();
 
+  /* ── Shared building blocks ── */
+  const trustCards = [
+    { icon: "fas fa-shield-alt", title: "100% Verified", desc: "Every escort is personally verified before joining our roster — authentic photos, real profiles." },
+    { icon: "fas fa-user-secret", title: "Complete Discretion", desc: "Your identity and booking details are always kept strictly private and confidential." },
+    { icon: "fas fa-clock", title: "Available 24/7", desc: "Book any time of day or night — including weekends, late nights and public holidays." },
+    { icon: "fas fa-bolt", title: "30-Min Arrival", desc: "After confirmation your companion reaches your preferred location in 30–45 minutes." },
+  ];
+
+  const stats = [
+    { num: "5000+", label: "Verified Escorts" },
+    { num: "4.9★", label: "Average Rating" },
+    { num: "10+", label: "Years in Mumbai" },
+    { num: "24/7", label: "Always Available" },
+  ];
+
+  const bookingSteps = [
+    { step: 1, title: "Call or WhatsApp", desc: "Contact us on +91-9653203658 any time — day or night." },
+    { step: 2, title: "Choose Your Escort", desc: "Tell us your preference and we match you with the perfect companion." },
+    { step: 3, title: "Confirm Booking", desc: "We confirm instantly and share everything you need." },
+    { step: 4, title: "Enjoy Your Time", desc: "Your escort arrives at your location, on time, every time." },
+  ];
+
   /* ── Service page ── */
   if (parsed.kind === "service") {
     const { service } = parsed;
+    const otherServices = services.filter((s) => s.slug !== slug);
+    const faqs = [
+      { q: `What is included in ${service.title} service in Mumbai?`, a: `Our ${service.title} service in Mumbai includes professional companionship for personal meetings, hotel visits, events, and more. All escorts are verified and maintain complete discretion.` },
+      { q: `How do I book ${service.title} in Mumbai?`, a: `Simply call or WhatsApp +91-9653203658. Share your location and preferred timing and we will confirm your booking within minutes.` },
+      { q: `Are ${service.title} available at night in Mumbai?`, a: `Yes. Our ${service.title} are available 24 hours a day, including late nights and weekends, across all Mumbai areas.` },
+      { q: `Do ${service.title} offer outcall service in Mumbai?`, a: `Yes. Companions provide both incall and outcall services and can visit your hotel, home, or any location in Mumbai within 30 to 45 minutes.` },
+      { q: `Is the ${service.title} booking completely private?`, a: `Absolutely. We operate with full discretion. Your personal details and booking information are never shared with any third party.` },
+    ];
+
     return (
-      <main className="pt-20">
-        <section className="py-20 bg-gradient-to-r from-pink-500 to-rose-600 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <main>
+        {/* ── HERO ── */}
+        <section className="hero-section" aria-label={`${service.title} Mumbai`}>
+          {/* Floating hearts */}
+          <div className="absolute inset-0 overflow-hidden hidden sm:block" style={{ pointerEvents: "none" }} aria-hidden="true">
+            <div className="absolute top-1/4 left-1/4 text-white opacity-10 text-6xl" style={{ animation: "float 3s ease-in-out infinite" }}>♥</div>
+            <div className="absolute top-1/3 right-1/4 text-white opacity-10 text-4xl" style={{ animation: "float 4s ease-in-out 1s infinite" }}>♥</div>
+            <div className="absolute bottom-1/3 left-1/3 text-white opacity-10 text-5xl" style={{ animation: "float 3.5s ease-in-out 2s infinite" }}>♥</div>
+          </div>
+          <div className="hero-content relative z-10">
             <span className="bg-white/20 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4 inline-block">
               {service.badge}
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              {service.title} in Mumbai
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+              <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+                {service.title}
+              </span>
+              <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+                in Mumbai
+              </span>
             </h1>
-            <p className="text-xl text-pink-100 max-w-3xl mx-auto mb-8">
-              {service.desc} — Verified, discreet and available 24/7 across all Mumbai locations.
+            <p className="text-base sm:text-lg lg:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-pink-50 font-light px-2">
+              {service.desc} — verified, discreet and available 24/7 across all Mumbai locations.
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
-                📞 Call Now
+            {/* Stats row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto mb-10 px-4">
+              {stats.map((s) => (
+                <div key={s.label} className="bg-white/15 rounded-xl py-3 px-2 text-center">
+                  <div className="text-xl font-bold text-white">{s.num}</div>
+                  <div className="text-pink-100 text-xs mt-1">{s.label}</div>
+                </div>
+              ))}
+            </div>
+            <div className="cta-buttons px-4">
+              <a href="tel:+919653203658" className="cta-btn cta-primary" aria-label="Call Pink Bra Escorts Mumbai">
+                <span className="text-xl" aria-hidden="true">📞</span>
+                <span className="text-base sm:text-lg">Call Now</span>
+                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">24/7</div>
               </a>
-              <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
-                💬 WhatsApp
+              <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="cta-btn cta-secondary" aria-label="WhatsApp Pink Bra Escorts Mumbai">
+                <span className="text-xl" aria-hidden="true">💬</span>
+                <span className="text-base sm:text-lg">WhatsApp</span>
               </a>
             </div>
           </div>
         </section>
 
+        {/* ── ABOUT + IMAGE ── */}
         <section className="py-16 bg-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+              <div className="rounded-2xl overflow-hidden shadow-xl">
                 <Image
                   src={`/images/services/${service.img}`}
                   alt={`${service.title} Mumbai`}
                   width={600}
-                  height={700}
-                  className="w-full h-[500px] object-cover object-top"
+                  height={600}
+                  className="w-full h-[480px] object-cover object-top"
                   priority
                 />
               </div>
@@ -195,31 +251,14 @@ export default async function SlugPage({
                   About Our {service.title} in Mumbai
                 </h2>
                 <p className="text-gray-600 mb-4 leading-relaxed text-lg">
-                  Pink Bra Escorts offers the finest <strong>{service.title.toLowerCase()}</strong> in
-                  Mumbai. Our escorts are carefully verified, fully professional, and dedicated to
-                  providing an unforgettable experience.
+                  Pink Bra Escorts offers Mumbai&apos;s finest <strong>{service.title.toLowerCase()}</strong> — professionally screened, genuinely discreet and dedicated to making every experience exceptional.
                 </p>
                 <p className="text-gray-600 mb-4 leading-relaxed">
-                  Available across Andheri, Bandra, Juhu, Powai, Thane, Navi Mumbai and all major
-                  Mumbai locations. We provide both incall and outcall services.
+                  Available across Andheri, Bandra, Juhu, Powai, Colaba, Thane, Navi Mumbai and every major Mumbai area. Both incall and outcall services are offered.
                 </p>
                 <p className="text-gray-600 mb-8 leading-relaxed">
-                  With 5000+ verified escorts and 10+ years of experience, Pink Bra Escorts is
-                  Mumbai&apos;s most trusted name. Complete discretion guaranteed for every booking.
+                  Since 2015, Pink Bra Escorts has been Mumbai&apos;s most trusted companion agency. Your privacy, comfort and satisfaction are our only priorities.
                 </p>
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {[
-                    { icon: "fas fa-check-circle", text: "100% Verified" },
-                    { icon: "fas fa-clock", text: "Available 24/7" },
-                    { icon: "fas fa-shield-alt", text: "Full Discretion" },
-                    { icon: "fas fa-bolt", text: "30-Min Arrival" },
-                  ].map((feat) => (
-                    <div key={feat.text} className="flex items-center gap-2 text-gray-700">
-                      <i className={`${feat.icon} text-pink-500`} aria-hidden="true"></i>
-                      <span className="font-medium">{feat.text}</span>
-                    </div>
-                  ))}
-                </div>
                 <div className="flex gap-4 flex-wrap">
                   <a href="tel:+919653203658" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
                     Book Now — Call Us
@@ -233,27 +272,111 @@ export default async function SlugPage({
           </div>
         </section>
 
+        {/* ── TRUST CARDS ── */}
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">More Escort Services in Mumbai</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {services.filter((s) => s.slug !== slug).slice(0, 12).map((s) => (
-                <Link key={s.slug} href={`/${s.slug}`} className="bg-white border border-pink-100 hover:border-pink-400 hover:bg-pink-50 text-gray-700 text-center py-3 px-3 rounded-lg font-medium transition-all duration-200 text-sm">
-                  {s.title}
-                </Link>
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              Why Choose Our {service.title}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {trustCards.map((item) => (
+                <div key={item.title} className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i className={`${item.icon} text-2xl text-pink-500`} aria-hidden="true"></i>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                </div>
               ))}
             </div>
-            <div className="text-center mt-8">
-              <Link href="/services" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
+          </div>
+        </section>
+
+        {/* ── HOW TO BOOK ── */}
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              How to Book {service.title} in Mumbai
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {bookingSteps.map((item) => (
+                <div key={item.step} className="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
+                  <div className="w-16 h-16 bg-pink-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                    {item.step}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── OTHER SERVICES (image cards) ── */}
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              More Escort Services in Mumbai
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {otherServices.slice(0, 6).map((s) => (
+                <div key={s.slug} className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                  <div className="relative overflow-hidden">
+                    <Image
+                      src={`/images/services/${s.img}`}
+                      alt={`${s.title} Mumbai`}
+                      width={400}
+                      height={300}
+                      className="w-full h-64 object-cover object-top transition-transform duration-300 hover:scale-110"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-3 right-3 bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
+                      <i className="fas fa-star text-xs" aria-hidden="true"></i>
+                      <span>{s.badge}</span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-gray-800 mb-1">{s.title}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{s.desc}</p>
+                    <Link href={`/${s.slug}`} className="bg-pink-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-pink-600 transform hover:-translate-y-1 transition-all duration-300 inline-block text-sm">
+                      Book {s.title}
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link href="/services" className="bg-pink-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transform hover:-translate-y-1 transition-all duration-300 inline-block">
                 View All Services
               </Link>
             </div>
           </div>
         </section>
 
+        {/* ── LOCATIONS ── */}
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              {service.title} Available Across Mumbai
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {locations.map((loc) => (
+                <Link
+                  key={loc}
+                  href={`/escorts-${toSlug(loc)}`}
+                  className="bg-pink-500 hover:bg-pink-600 text-white text-center py-3 px-4 rounded-lg font-semibold transition-colors duration-300 block text-sm"
+                >
+                  Escorts in {loc}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA BANNER ── */}
         <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
           <div className="max-w-3xl mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-4">Book {service.title} Now</h2>
+            <h2 className="text-3xl font-bold mb-4">Book {service.title} in Mumbai Now</h2>
             <p className="text-pink-100 mb-8 text-lg">Available 24/7 across all Mumbai locations. Call or WhatsApp to book instantly.</p>
             <div className="flex gap-4 justify-center flex-wrap">
               <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
@@ -266,77 +389,56 @@ export default async function SlugPage({
           </div>
         </section>
 
-        {/* FAQ Section */}
-        {(() => {
-          const faqs = [
-            { q: `What is included in ${service.title} service in Mumbai?`, a: `Our ${service.title} service in Mumbai includes professional companionship for personal meetings, hotel visits, events, and more. All escorts are verified and maintain complete discretion throughout the experience.` },
-            { q: `How do I book ${service.title} in Mumbai?`, a: `Simply call or WhatsApp +91-9653203658. Share your location and preferred timing, and we will confirm your booking right away. Most bookings are confirmed within minutes.` },
-            { q: `Are ${service.title} available at night in Mumbai?`, a: `Yes. Our ${service.title} are available 24 hours a day, including late nights and weekends, across all Mumbai areas.` },
-            { q: `Do ${service.title} offer outcall service in Mumbai?`, a: `Yes. Our companions provide both incall and outcall services. They can visit your hotel, home, or any preferred location in Mumbai within 30 to 45 minutes of confirmation.` },
-            { q: `Is the ${service.title} booking completely private?`, a: `Absolutely. We operate with full discretion. Your personal details and booking information are never shared with any third party.` },
-          ];
-          return (
-            <>
-              <section className="py-16 bg-white">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-                    Frequently Asked Questions — {service.title} Mumbai
-                  </h2>
-                  <div className="space-y-4">
-                    {faqs.map((faq) => (
-                      <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
-                        <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
-                        <p className="text-gray-600 leading-relaxed">{faq.a}</p>
-                      </div>
-                    ))}
-                  </div>
+        {/* ── FAQ + SCHEMA ── */}
+        <section className="py-16 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+              Frequently Asked Questions — {service.title} Mumbai
+            </h2>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
+                  <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
+                  <p className="text-gray-600 leading-relaxed">{faq.a}</p>
                 </div>
-              </section>
-              <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                  __html: JSON.stringify([
-                    {
-                      "@context": "https://schema.org",
-                      "@type": "BreadcrumbList",
-                      itemListElement: [
-                        { "@type": "ListItem", position: 1, name: "Home", item: "https://pinkbraescort.in" },
-                        { "@type": "ListItem", position: 2, name: "Services", item: "https://pinkbraescort.in/services" },
-                        { "@type": "ListItem", position: 3, name: service.title, item: `https://pinkbraescort.in/${slug}` },
-                      ],
-                    },
-                    {
-                      "@context": "https://schema.org",
-                      "@type": "Service",
-                      name: `${service.title} in Mumbai`,
-                      description: `${service.desc} — professional, verified companions available 24/7 in Mumbai.`,
-                      provider: {
-                        "@type": "LocalBusiness",
-                        name: "Pink Bra Escorts Mumbai",
-                        telephone: "+919653203658",
-                        url: "https://pinkbraescort.in",
-                      },
-                      areaServed: { "@type": "City", name: "Mumbai" },
-                      availableChannel: {
-                        "@type": "ServiceChannel",
-                        servicePhone: { "@type": "ContactPoint", telephone: "+919653203658", contactType: "customer service" },
-                      },
-                    },
-                    {
-                      "@context": "https://schema.org",
-                      "@type": "FAQPage",
-                      mainEntity: faqs.map((faq) => ({
-                        "@type": "Question",
-                        name: faq.q,
-                        acceptedAnswer: { "@type": "Answer", text: faq.a },
-                      })),
-                    },
-                  ]),
-                }}
-              />
-            </>
-          );
-        })()}
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: "https://pinkbraescort.in" },
+                  { "@type": "ListItem", position: 2, name: "Services", item: "https://pinkbraescort.in/services" },
+                  { "@type": "ListItem", position: 3, name: service.title, item: `https://pinkbraescort.in/${slug}` },
+                ],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                name: `${service.title} in Mumbai`,
+                description: `${service.desc} — professional, verified companions available 24/7 in Mumbai.`,
+                provider: { "@type": "LocalBusiness", name: "Pink Bra Escorts Mumbai", telephone: "+919653203658", url: "https://pinkbraescort.in" },
+                areaServed: { "@type": "City", name: "Mumbai" },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: { "@type": "Answer", text: faq.a },
+                })),
+              },
+            ]),
+          }}
+        />
       </main>
     );
   }
@@ -344,68 +446,74 @@ export default async function SlugPage({
   /* ── Location / Call-Girls page ── */
   const { location, keyword } = parsed;
   const isCallGirls = keyword === "Call Girls";
+  const prefix = isCallGirls ? "call-girls" : "escorts";
+
+  const faqs = [
+    { q: `How do I book ${keyword.toLowerCase()} in ${location}, Mumbai?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We confirm bookings within minutes and arrange the companion of your choice.` },
+    { q: `Are ${keyword.toLowerCase()} available late at night in ${location}?`, a: `Yes. Our ${keyword.toLowerCase()} in ${location} are available round the clock — including late nights, weekends and holidays.` },
+    { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions visit your hotel room, apartment or any location in and around ${location}, Mumbai.` },
+    { q: `How long does it take for a companion to arrive in ${location}?`, a: `After booking confirmation companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area.` },
+    { q: `Is booking ${keyword.toLowerCase()} in ${location} discreet?`, a: `Yes, completely. All bookings are handled with strict confidentiality. Your personal information is never shared or stored beyond the booking process.` },
+  ];
 
   return (
-    <main className="pt-20">
-      <section className="py-20 bg-gradient-to-r from-pink-500 to-rose-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            {keyword} in {location}, Mumbai
+    <main>
+      {/* ── HERO ── */}
+      <section className="hero-section" aria-label={`${keyword} in ${location}`}>
+        <div className="absolute inset-0 overflow-hidden hidden sm:block" style={{ pointerEvents: "none" }} aria-hidden="true">
+          <div className="absolute top-1/4 left-1/4 text-white opacity-10 text-6xl" style={{ animation: "float 3s ease-in-out infinite" }}>♥</div>
+          <div className="absolute top-1/3 right-1/4 text-white opacity-10 text-4xl" style={{ animation: "float 4s ease-in-out 1s infinite" }}>♥</div>
+          <div className="absolute bottom-1/3 left-1/3 text-white opacity-10 text-5xl" style={{ animation: "float 3.5s ease-in-out 2s infinite" }}>♥</div>
+        </div>
+        <div className="hero-content relative z-10">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+            <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+              {keyword} in {location}
+            </span>
+            <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+              Mumbai
+            </span>
           </h1>
-          <p className="text-xl text-pink-100 max-w-3xl mx-auto mb-8">
-            Premium verified {keyword.toLowerCase()} available in {location} and surrounding areas.
-            Discreet, professional and available 24/7.
+          <p className="text-base sm:text-lg lg:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-pink-50 font-light px-2">
+            Premium verified {keyword.toLowerCase()} in <strong className="text-yellow-200">{location}</strong> — discreet, professional and available 24 hours a day.
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
-              📞 Call Now
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto mb-10 px-4">
+            {stats.map((s) => (
+              <div key={s.label} className="bg-white/15 rounded-xl py-3 px-2 text-center">
+                <div className="text-xl font-bold text-white">{s.num}</div>
+                <div className="text-pink-100 text-xs mt-1">{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <div className="cta-buttons px-4">
+            <a href="tel:+919653203658" className="cta-btn cta-primary" aria-label="Call Pink Bra Escorts Mumbai">
+              <span className="text-xl" aria-hidden="true">📞</span>
+              <span className="text-base sm:text-lg">Call Now</span>
+              <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">24/7</div>
             </a>
-            <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
-              💬 WhatsApp
+            <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="cta-btn cta-secondary" aria-label="WhatsApp Pink Bra Escorts Mumbai">
+              <span className="text-xl" aria-hidden="true">💬</span>
+              <span className="text-base sm:text-lg">WhatsApp</span>
             </a>
           </div>
         </div>
       </section>
 
+      {/* ── ABOUT ── */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">
-            Premium {keyword} Service in {location}
+            Premium {keyword} in {location}, Mumbai
           </h2>
           <p className="text-gray-600 mb-4 leading-relaxed text-lg">
-            Pink Bra Escorts provides Mumbai&apos;s finest {keyword.toLowerCase()} in{" "}
-            <strong>{location}</strong>. Whether you&apos;re staying at a hotel, at home, or need
-            a companion for an event — we are just a call away.
+            Pink Bra Escorts offers Mumbai&apos;s finest {keyword.toLowerCase()} in <strong>{location}</strong>. Whether you&apos;re staying at a hotel, at home, or need a companion for an event — we are just a call away.
           </p>
           <p className="text-gray-600 mb-4 leading-relaxed">
-            All {keyword.toLowerCase()} serving {location} are 100% verified, professional, and
-            trained to maintain complete discretion. We offer both incall and outcall services
-            with a guaranteed 30–45 minute arrival time.
+            All {keyword.toLowerCase()} serving {location} are 100% verified, professional and trained to maintain complete discretion. We offer both incall and outcall services with a guaranteed 30–45 minute arrival time.
           </p>
-          <p className="text-gray-600 mb-10 leading-relaxed">
-            With 5000+ verified escorts and over 10 years of experience, Pink Bra Escorts is
-            Mumbai&apos;s most trusted agency. Book today and experience the difference.
+          <p className="text-gray-600 mb-8 leading-relaxed">
+            Since 2015, Pink Bra Escorts has been Mumbai&apos;s most trusted agency. Book today and experience the difference.
           </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
-            {[
-              { icon: "fas fa-check-circle", title: "100% Verified", desc: "All escorts personally verified before joining our roster" },
-              { icon: "fas fa-shield-alt", title: "Complete Discretion", desc: "Your identity and details are always kept private and secure" },
-              { icon: "fas fa-clock", title: "24/7 Availability", desc: "Book any time of day or night, including weekends and holidays" },
-              { icon: "fas fa-bolt", title: "Fast Arrival", desc: "Escorts arrive within 30–45 minutes of confirmed booking" },
-            ].map((feat) => (
-              <div key={feat.title} className="flex gap-4 p-5 bg-pink-50 rounded-xl">
-                <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <i className={`${feat.icon} text-pink-500`} aria-hidden="true"></i>
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-800 mb-1">{feat.title}</h3>
-                  <p className="text-gray-600 text-sm">{feat.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
           <div className="flex gap-4 flex-wrap">
             <a href="tel:+919653203658" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
               Book Now — Call Us
@@ -417,64 +525,125 @@ export default async function SlugPage({
         </div>
       </section>
 
-      {/* Also available as: escorts / call-girls cross-link */}
-      <section className="py-8 bg-pink-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-700">
-            Also see:{" "}
-            <Link
-              href={isCallGirls ? `/escorts-${toSlug(location)}` : `/call-girls-${toSlug(location)}`}
-              className="text-pink-600 font-semibold hover:underline"
-            >
-              {isCallGirls ? "Escorts" : "Call Girls"} in {location}
-            </Link>
-          </p>
+      {/* ── TRUST CARDS ── */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+            Why Choose Pink Bra Escorts in {location}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {trustCards.map((item) => (
+              <div key={item.title} className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className={`${item.icon} text-2xl text-pink-500`} aria-hidden="true"></i>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* ── HOW TO BOOK ── */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+            How to Book {keyword} in {location}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {bookingSteps.map((item) => (
+              <div key={item.step} className="bg-white p-6 rounded-xl shadow-lg text-center hover:shadow-xl transition-shadow duration-300">
+                <div className="w-16 h-16 bg-pink-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+                  {item.step}
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── SERVICES (image cards) ── */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-            Services Available in {location}
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+            Escort Services Available in {location}
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {services.slice(0, 12).map((s) => (
-              <Link key={s.slug} href={`/${s.slug}`} className="bg-white border border-pink-100 hover:border-pink-400 hover:bg-pink-50 text-gray-700 text-center py-3 px-3 rounded-lg font-medium transition-all duration-200 text-sm">
-                {s.title}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.slice(0, 6).map((s) => (
+              <div key={s.slug} className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={`/images/services/${s.img}`}
+                    alt={`${s.title} in ${location} Mumbai`}
+                    width={400}
+                    height={300}
+                    className="w-full h-64 object-cover object-top transition-transform duration-300 hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute top-3 right-3 bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
+                    <i className="fas fa-star text-xs" aria-hidden="true"></i>
+                    <span>{s.badge}</span>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-gray-800 mb-1">{s.title}</h3>
+                  <p className="text-gray-600 text-sm mb-4">{s.desc}</p>
+                  <Link href={`/${s.slug}`} className="bg-pink-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-pink-600 transform hover:-translate-y-1 transition-all duration-300 inline-block text-sm">
+                    Book {s.title}
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link href="/services" className="bg-pink-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transform hover:-translate-y-1 transition-all duration-300 inline-block">
+              View All Services
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── OTHER LOCATIONS ── */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+            {keyword} in Other Mumbai Areas
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {locations.filter((loc) => loc !== location).map((loc) => (
+              <Link
+                key={loc}
+                href={`/${prefix}-${toSlug(loc)}`}
+                className="bg-pink-500 hover:bg-pink-600 text-white text-center py-3 px-4 rounded-lg font-semibold transition-colors duration-300 block text-sm"
+              >
+                {keyword} in {loc}
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-            {keyword} in Other Mumbai Areas
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {locations
-              .filter((loc) => loc !== location)
-              .slice(0, 20)
-              .map((loc) => (
-                <Link
-                  key={loc}
-                  href={isCallGirls ? `/call-girls-${toSlug(loc)}` : `/escorts-${toSlug(loc)}`}
-                  className="bg-pink-500 hover:bg-pink-600 text-white text-center py-3 px-4 rounded-lg font-semibold transition-colors duration-300 block text-sm"
-                >
-                  {loc}
-                </Link>
-              ))}
-          </div>
-        </div>
+      {/* ── CROSS LINK ── */}
+      <section className="py-6 bg-pink-50 text-center">
+        <p className="text-gray-700">
+          Also see:{" "}
+          <Link
+            href={isCallGirls ? `/escorts-${toSlug(location)}` : `/call-girls-${toSlug(location)}`}
+            className="text-pink-600 font-semibold hover:underline"
+          >
+            {isCallGirls ? "Escorts" : "Call Girls"} in {location}
+          </Link>
+        </p>
       </section>
 
+      {/* ── CTA BANNER ── */}
       <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4">Book {keyword} in {location} Now</h2>
-          <p className="text-pink-100 mb-8 text-lg">
-            Available 24/7 in {location} and all Mumbai areas. Call or WhatsApp to book instantly.
-          </p>
+          <p className="text-pink-100 mb-8 text-lg">Available 24/7 in {location} and all Mumbai areas. Call or WhatsApp to book instantly.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
               📞 +91-9653203658
@@ -486,78 +655,58 @@ export default async function SlugPage({
         </div>
       </section>
 
-      {/* FAQ Section */}
-      {(() => {
-        const faqs = [
-          { q: `How do I book ${keyword.toLowerCase()} in ${location}, Mumbai?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We'll confirm your booking within minutes and arrange the companion of your choice.` },
-          { q: `Are ${keyword.toLowerCase()} available late at night in ${location}?`, a: `Yes. Our ${keyword.toLowerCase()} in ${location} are available round the clock — including late nights, weekends, and holidays.` },
-          { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions can visit your hotel room, apartment, or any location in and around ${location}, Mumbai.` },
-          { q: `How long does it take for a companion to arrive in ${location}?`, a: `After booking confirmation, companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area.` },
-          { q: `Is booking ${keyword.toLowerCase()} in ${location} discreet?`, a: `Yes, completely. All bookings are handled with strict confidentiality. Your personal information is never shared or stored beyond the booking process.` },
-        ];
-        const prefix = isCallGirls ? "call-girls" : "escorts";
-        return (
-          <>
-            <section className="py-16 bg-white">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
-                  FAQs — {keyword} in {location}
-                </h2>
-                <div className="space-y-4">
-                  {faqs.map((faq) => (
-                    <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
-                      <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
-                      <p className="text-gray-600 leading-relaxed">{faq.a}</p>
-                    </div>
-                  ))}
-                </div>
+      {/* ── FAQ + SCHEMA ── */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-8 text-center">
+            FAQs — {keyword} in {location}
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq) => (
+              <div key={faq.q} className="bg-pink-50 p-6 rounded-xl border border-pink-100">
+                <h3 className="font-bold text-gray-800 mb-2">{faq.q}</h3>
+                <p className="text-gray-600 leading-relaxed">{faq.a}</p>
               </div>
-            </section>
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{
-                __html: JSON.stringify([
-                  {
-                    "@context": "https://schema.org",
-                    "@type": "BreadcrumbList",
-                    itemListElement: [
-                      { "@type": "ListItem", position: 1, name: "Home", item: "https://pinkbraescort.in" },
-                      { "@type": "ListItem", position: 2, name: "Mumbai", item: "https://pinkbraescort.in/escorts-mumbai" },
-                      { "@type": "ListItem", position: 3, name: `${keyword} in ${location}`, item: `https://pinkbraescort.in/${prefix}-${toSlug(location)}` },
-                    ],
-                  },
-                  {
-                    "@context": "https://schema.org",
-                    "@type": "Service",
-                    name: `${keyword} in ${location}, Mumbai`,
-                    description: `Verified, discreet ${keyword.toLowerCase()} in ${location}, Mumbai. Available 24/7 for incall and outcall bookings.`,
-                    provider: {
-                      "@type": "LocalBusiness",
-                      name: "Pink Bra Escorts Mumbai",
-                      telephone: "+919653203658",
-                      url: "https://pinkbraescort.in",
-                    },
-                    areaServed: { "@type": "Place", name: `${location}, Mumbai` },
-                    availableChannel: {
-                      "@type": "ServiceChannel",
-                      servicePhone: { "@type": "ContactPoint", telephone: "+919653203658", contactType: "customer service" },
-                    },
-                  },
-                  {
-                    "@context": "https://schema.org",
-                    "@type": "FAQPage",
-                    mainEntity: faqs.map((faq) => ({
-                      "@type": "Question",
-                      name: faq.q,
-                      acceptedAnswer: { "@type": "Answer", text: faq.a },
-                    })),
-                  },
-                ]),
-              }}
-            />
-          </>
-        );
-      })()}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://pinkbraescort.in" },
+                { "@type": "ListItem", position: 2, name: "Mumbai", item: "https://pinkbraescort.in/escorts-mumbai" },
+                { "@type": "ListItem", position: 3, name: `${keyword} in ${location}`, item: `https://pinkbraescort.in/${prefix}-${toSlug(location)}` },
+              ],
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              name: `${keyword} in ${location}, Mumbai`,
+              description: `Verified, discreet ${keyword.toLowerCase()} in ${location}, Mumbai. Available 24/7 for incall and outcall bookings.`,
+              provider: { "@type": "LocalBusiness", name: "Pink Bra Escorts Mumbai", telephone: "+919653203658", url: "https://pinkbraescort.in" },
+              areaServed: { "@type": "Place", name: `${location}, Mumbai` },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqs.map((faq) => ({
+                "@type": "Question",
+                name: faq.q,
+                acceptedAnswer: { "@type": "Answer", text: faq.a },
+              })),
+            },
+          ]),
+        }}
+      />
     </main>
   );
 }
+
+
