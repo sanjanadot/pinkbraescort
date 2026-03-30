@@ -845,7 +845,7 @@ export default async function SlugPage({
             Escort Services Available in {location}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.slice(0, 6).map((s) => (
+            {services.map((s) => (
               <div key={s.slug} className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
                 <div className="relative overflow-hidden">
                   <Image
