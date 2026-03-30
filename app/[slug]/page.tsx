@@ -888,12 +888,22 @@ export default async function SlugPage({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {spaServices.map((t) => (
                 <div key={t.slug} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  <div className="h-2 bg-gradient-to-r from-pink-500 to-rose-500" />
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-lg font-bold text-gray-800">{t.title}</h3>
-                      <span className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap ml-2">{t.badge}</span>
+                  <div className="relative overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/images/spa/${t.slug}.svg`}
+                      alt={`${t.title} spa service in ${location}`}
+                      width={400}
+                      height={250}
+                      className="w-full h-48 object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute top-3 right-3 bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
+                      {t.badge}
                     </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold text-gray-800 mb-2">{t.title}</h3>
                     <p className="text-gray-600 text-sm leading-relaxed mb-4">{t.desc}</p>
                     <a href="tel:+919653203658" className="bg-pink-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors inline-block text-sm">
                       Book in {location}
