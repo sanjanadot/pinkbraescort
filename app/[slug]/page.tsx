@@ -90,6 +90,26 @@ function toSlug(name: string) {
 const serviceMap = new Map(services.map((s) => [s.slug, s]));
 const locationByPart = new Map(locations.map((loc) => [toSlug(loc), loc]));
 
+/* Locations within Mumbai Metropolitan Region — all others are pan-India cities */
+const mumbaiAreaLocations = new Set([
+  "Andheri", "Bandra", "Juhu", "Powai", "Lower Parel", "Worli", "Colaba", "Fort",
+  "Churchgate", "Nariman Point", "Dadar", "Mahim", "Mahalaxmi", "Parel", "Prabhadevi",
+  "Santacruz", "Versova", "Lokhandwala", "Goregaon", "Malad", "Kandivali", "Borivali",
+  "Khar", "Khar Road", "Byculla", "Chembur", "Ghatkopar", "Kurla", "Sakinaka",
+  "Vikhroli", "Kanjurmarg", "Vidyavihar", "Sion", "Masjid Bandar", "Charni Road",
+  "Grant Road", "Mumbai Central", "Marine Lines", "CST", "Chinchpokli", "Govandi",
+  "Mankhurd", "Wadala", "Jogeshwari", "Bhandup", "Mulund", "Nahur", "Ghansoli",
+  "Matunga", "Baba", "Mumbai Airport", "Mumbai",
+  "Thane", "Bhiwandi", "Dombivli", "Kalyan", "Ambernath", "Badlapur", "Titwala",
+  "Thakurli", "Ulhasnagar", "Diva", "Ambivali", "Asangaon", "Kasara", "Karjat",
+  "Khopoli", "Boisar", "Palghar", "Saphale",
+  "Navi Mumbai", "Airoli", "Belapur", "Juinagar", "Kalamboli", "Kalwa",
+  "Kamothe", "Kharghar", "Kopar Khairane", "Nerul", "Panvel", "Rabale", "Sanpada",
+  "Seawood", "Ulwe", "Vashi",
+  "Bhayandar", "Mira Road", "Vasai", "Virar", "Naigaon", "Nalasopara", "Neral",
+  "Mumbra", "Ghodbunder Road", "Taloja", "Vile Parle",
+]);
+
 /* ── Slug parser ── */
 type Parsed =
   | { kind: "service"; service: (typeof services)[number] }
@@ -152,22 +172,24 @@ export async function generateMetadata({
   }
 
   const { location, keyword } = parsed;
+  const isMumbaiArea = mumbaiAreaLocations.has(location);
+  const cityLabel = isMumbaiArea ? `${location}, Mumbai` : location;
   const ogImage = `https://pinkbraescort.in/images/services/default-escort.webp`;
   return {
-    title: `${keyword} in ${location}, Mumbai – Book Now`,
-    description: `Looking for ${keyword.toLowerCase()} in ${location}? Pink Bra offers verified, discreet companions available 24/7 in ${location}, Mumbai. Call +91-9653203658.`,
+    title: `${keyword} in ${cityLabel} – Book Now`,
+    description: `Looking for ${keyword.toLowerCase()} in ${location}? Pink Bra offers verified, discreet companions available 24/7 in ${cityLabel}. Call +91-9653203658.`,
     alternates: { canonical: `/${slug}` },
     openGraph: {
-      title: `${keyword} in ${location}, Mumbai – Book Now`,
-      description: `Verified ${keyword.toLowerCase()} in ${location}, Mumbai. Discreet, professional, available 24/7.`,
+      title: `${keyword} in ${cityLabel} – Book Now`,
+      description: `Verified ${keyword.toLowerCase()} in ${cityLabel}. Discreet, professional, available 24/7.`,
       url: `https://pinkbraescort.in/${slug}`,
       type: "website",
-      images: [{ url: ogImage, width: 1200, height: 630, alt: `${keyword} in ${location} Mumbai` }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${keyword} in ${cityLabel}` }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${keyword} in ${location}, Mumbai – Book Now`,
-      description: `Verified ${keyword.toLowerCase()} in ${location}, Mumbai. Discreet, professional, available 24/7.`,
+      title: `${keyword} in ${cityLabel} – Book Now`,
+      description: `Verified ${keyword.toLowerCase()} in ${cityLabel}. Discreet, professional, available 24/7.`,
       images: [ogImage],
     },
   };
@@ -183,18 +205,22 @@ export default async function SlugPage({
   const parsed = parseSlug(slug);
   if (!parsed) notFound();
 
+  const locationName = parsed.kind !== "service" ? parsed.location : "";
+  const isMumbaiArea = parsed.kind !== "service" && mumbaiAreaLocations.has(parsed.location);
+  const cityLabel = isMumbaiArea ? `${locationName}, Mumbai` : locationName;
+
   /* ── Shared building blocks ── */
   const trustCards = [
     { icon: "fas fa-shield-alt", title: "100% Verified", desc: "Every escort is personally verified before joining our roster — authentic photos, real profiles." },
     { icon: "fas fa-user-secret", title: "Complete Discretion", desc: "Your identity and booking details are always kept strictly private and confidential." },
     { icon: "fas fa-clock", title: "Available 24/7", desc: "Book any time of day or night — including weekends, late nights and public holidays." },
-    { icon: "fas fa-bolt", title: "30-Min Arrival", desc: "After confirmation your companion reaches your preferred location in 30–45 minutes." },
+    { icon: "fas fa-bolt", title: isMumbaiArea ? "30-Min Arrival" : "Fast Arrival", desc: isMumbaiArea ? "After confirmation your companion reaches your preferred location in 30–45 minutes." : "We coordinate with verified companions in your city for same-day arrival." },
   ];
 
   const stats = [
     { num: "5000+", label: "Verified Escorts" },
     { num: "4.9★", label: "Average Rating" },
-    { num: "10+", label: "Years in Mumbai" },
+    { num: "10+", label: isMumbaiArea ? "Years in Mumbai" : "Years India-wide" },
     { num: "24/7", label: "Always Available" },
   ];
 
@@ -538,18 +564,18 @@ export default async function SlugPage({
   const prefix = isCallGirls ? "call-girls" : "escorts";
 
   const faqs = [
-    { q: `How do I book ${keyword.toLowerCase()} in ${location}, Mumbai?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We confirm bookings within minutes and arrange the companion of your choice, any time of day or night.` },
+    { q: `How do I book ${keyword.toLowerCase()} in ${cityLabel}?`, a: `Call or WhatsApp +91-9653203658 and mention ${location} as your preferred area. We confirm bookings within minutes and arrange the companion of your choice, any time of day or night.` },
     { q: `Are ${keyword.toLowerCase()} available late at night in ${location}?`, a: `Yes. Our ${keyword.toLowerCase()} in ${location} are available round the clock — including late nights, weekends and public holidays. There is no time restriction on bookings.` },
-    { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions visit your hotel room, serviced apartment or any location in and around ${location}, Mumbai. All hotels are supported.` },
-    { q: `How long does it take for a companion to arrive in ${location}?`, a: `After booking confirmation companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area of Mumbai.` },
+    { q: `Do ${keyword.toLowerCase()} in ${location} offer hotel visits?`, a: `Yes. Outcall services are available — companions visit your hotel room, serviced apartment or any location in and around ${location}. All hotels are supported.` },
+    { q: `How long does it take for a companion to arrive in ${location}?`, a: isMumbaiArea ? `After booking confirmation companions typically arrive within 30 to 45 minutes, depending on traffic in the ${location} area of Mumbai.` : `After booking confirmation our local companions in ${location} are typically arranged on the same day. Exact timing depends on availability and your location.` },
     { q: `Is booking ${keyword.toLowerCase()} in ${location} discreet?`, a: `Yes, completely. All bookings are handled with strict confidentiality. Your personal information is never shared or stored beyond the booking process.` },
     { q: `What is the cost of ${keyword.toLowerCase()} in ${location}?`, a: `Rates depend on duration, service type and companion selection. Call +91-9653203658 for a personalised quote with full transparency and no hidden charges.` },
     { q: `Are all ${keyword.toLowerCase()} in ${location} verified?`, a: `Yes. Every companion serving ${location} is personally interviewed and profile-verified by our team. All photos are genuine, recent and unedited.` },
     { q: `Can I request a specific type of companion in ${location}?`, a: `Absolutely. Share your preferences — appearance, language spoken, personality — and we will match you with the ideal companion from our ${location} roster.` },
     { q: `Do you offer same-day ${keyword.toLowerCase()} bookings in ${location}?`, a: `Yes. Same-day and last-minute bookings are accepted in ${location}. For a specific companion a 2-hour advance notice is recommended, though we always do our best.` },
-    { q: `Are both incall and outcall options available in ${location}?`, a: `Yes. Incall locations near ${location} are available for convenience, and outcall service covers your hotel, home or office anywhere in the ${location} area of Mumbai.` },
+    { q: `Are both incall and outcall options available in ${location}?`, a: `Yes. Incall and outcall services are both available in ${location}. Outcall covers your hotel, home or office anywhere in ${location}.` },
     { q: `What services are available with ${keyword.toLowerCase()} in ${location}?`, a: `Companions in ${location} offer personal meetings, dinner dates, event accompaniment, overnight stays and more. All services are tailored to your preferences and boundaries.` },
-    { q: `Why choose Pink Bra Escorts for ${keyword.toLowerCase()} in ${location}?`, a: `Pink Bra Escorts has served Mumbai since 2015 with 5,000+ verified companions across all areas including ${location}. We offer a 4.9-star rated service with guaranteed 30-minute arrival and full privacy on every booking.` },
+    { q: `Why choose Pink Bra Escorts for ${keyword.toLowerCase()} in ${location}?`, a: isMumbaiArea ? `Pink Bra Escorts has served Mumbai since 2015 with 5,000+ verified companions across all areas including ${location}. We offer a 4.9-star rated service with guaranteed 30-minute arrival and full privacy on every booking.` : `Pink Bra Escorts has served clients across India since 2015 with 5,000+ verified companions available in ${location} and all major cities. We offer a 4.9-star rated service with full privacy on every booking.` },
   ];
 
   return (
@@ -566,9 +592,11 @@ export default async function SlugPage({
             <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
               {keyword} in {location}
             </span>
-            <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
-              Mumbai
-            </span>
+            {isMumbaiArea && (
+              <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+                Mumbai
+              </span>
+            )}
           </h1>
           <p className="text-base sm:text-lg lg:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-pink-50 font-light px-2">
             Premium verified {keyword.toLowerCase()} in <strong className="text-yellow-200">{location}</strong> — discreet, professional and available 24 hours a day.
@@ -599,16 +627,16 @@ export default async function SlugPage({
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">
-            Premium {keyword} in {location}, Mumbai
+            Premium {keyword} in {cityLabel}
           </h2>
           <p className="text-gray-600 mb-4 leading-relaxed text-lg">
-            Pink Bra Escorts offers Mumbai&apos;s finest {keyword.toLowerCase()} in <strong>{location}</strong>. Whether you&apos;re staying at a hotel, at home, or need a companion for an event — we are just a call away.
+            {isMumbaiArea ? "Pink Bra Escorts offers Mumbai\u2019s finest" : "Pink Bra Escorts offers India\u2019s finest"} {keyword.toLowerCase()} in <strong>{location}</strong>. Whether you&apos;re staying at a hotel, at home, or need a companion for an event — we are just a call away.
           </p>
           <p className="text-gray-600 mb-4 leading-relaxed">
-            All {keyword.toLowerCase()} serving {location} are 100% verified, professional and trained to maintain complete discretion. We offer both incall and outcall services with a guaranteed 30–45 minute arrival time.
+            All {keyword.toLowerCase()} serving {location} are 100% verified, professional and trained to maintain complete discretion. We offer both incall and outcall services{isMumbaiArea ? " with a guaranteed 30\u201345 minute arrival time" : " with same-day availability"}.
           </p>
           <p className="text-gray-600 mb-8 leading-relaxed">
-            Since 2015, Pink Bra Escorts has been Mumbai&apos;s most trusted agency. Book today and experience the difference.
+            Since 2015, Pink Bra Escorts has been {isMumbaiArea ? "Mumbai\u2019s" : "India\u2019s"} most trusted agency. Book today and experience the difference.
           </p>
           <div className="flex gap-4 flex-wrap">
             <a href="tel:+919653203658" className="bg-pink-500 text-white px-8 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
@@ -673,7 +701,7 @@ export default async function SlugPage({
                 <div className="relative overflow-hidden">
                   <Image
                     src={`/images/services/${s.img}`}
-                    alt={`${s.title} in ${location} Mumbai`}
+                    alt={`${s.title} in ${cityLabel}`}
                     width={400}
                     height={300}
                     className="w-full h-64 object-cover object-top transition-transform duration-300 hover:scale-110"
@@ -706,7 +734,7 @@ export default async function SlugPage({
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
-            {keyword} in Other Mumbai Areas
+            {isMumbaiArea ? `${keyword} in Other Mumbai Areas` : `${keyword} in Other Cities`}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {locations.filter((loc) => loc !== location).map((loc) => (
@@ -739,7 +767,7 @@ export default async function SlugPage({
       <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4">Book {keyword} in {location} Now</h2>
-          <p className="text-pink-100 mb-8 text-lg">Available 24/7 in {location} and all Mumbai areas. Call or WhatsApp to book instantly.</p>
+          <p className="text-pink-100 mb-8 text-lg">Available 24/7 in {location} and {isMumbaiArea ? "all Mumbai areas" : "across India"}. Call or WhatsApp to book instantly.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
               📞 +91-9653203658
@@ -831,7 +859,7 @@ export default async function SlugPage({
               name: `${keyword} in ${location}, Mumbai`,
               description: `Verified, discreet ${keyword.toLowerCase()} in ${location}, Mumbai. Available 24/7 for incall and outcall bookings.`,
               provider: { "@type": "LocalBusiness", name: "Pink Bra Escorts Mumbai", telephone: "+919653203658", url: "https://pinkbraescort.in" },
-              areaServed: { "@type": "Place", name: `${location}, Mumbai` },
+              areaServed: { "@type": "Place", name: isMumbaiArea ? `${location}, Mumbai` : location },
             },
             {
               "@context": "https://schema.org",
