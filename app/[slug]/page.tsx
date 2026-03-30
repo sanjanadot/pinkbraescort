@@ -885,17 +885,17 @@ export default async function SlugPage({
             <p className="text-center text-gray-500 mb-12 max-w-2xl mx-auto">
               Choose from 12 premium treatments delivered by certified therapists at your home or hotel in {location}.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {spaServices.map((t) => (
                 <div key={t.slug} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                  <div className="relative overflow-hidden">
+                  <div className="relative aspect-[5/8] overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`/images/spa/${t.slug}.svg`}
+                      src={`/images/spa/${t.slug}.jpg`}
                       alt={`${t.title} spa service in ${location}`}
-                      width={400}
-                      height={250}
-                      className="w-full h-48 object-cover"
+                      width={500}
+                      height={800}
+                      className="w-full h-full object-cover object-center"
                       loading="lazy"
                     />
                     <div className="absolute top-3 right-3 bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg">
