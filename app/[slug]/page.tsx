@@ -257,10 +257,27 @@ function getLocationContent(location: string, isMumbaiArea: boolean, keyword: st
   };
 }
 
+/* ── SPA treatments ── */
+const spaServices = [
+  { slug: "swedish-massage", title: "Swedish Full Body", desc: "Gentle long strokes to relieve muscle tension and improve circulation.", badge: "POPULAR" },
+  { slug: "deep-tissue-massage", title: "Deep Tissue Massage", desc: "Firm pressure targeting chronic muscle tension and knots.", badge: "THERAPEUTIC" },
+  { slug: "hot-stone-spa", title: "Hot Stone Spa", desc: "Heated basalt stones melt away stress from deep muscle layers.", badge: "PREMIUM" },
+  { slug: "aromatherapy", title: "Aromatherapy Massage", desc: "Essential oils blended with relaxing massage for total mind-body calm.", badge: "CALMING" },
+  { slug: "thai-massage", title: "Thai Massage", desc: "Assisted stretching and acupressure to restore energy and flexibility.", badge: "ENERGISING" },
+  { slug: "b2b-massage", title: "B2B Massage", desc: "A deeply intimate body-to-body massage experience for full relaxation.", badge: "INTIMATE" },
+  { slug: "nuru-massage", title: "Nuru Massage", desc: "Traditional Japanese full-body gel massage for ultimate sensory relaxation.", badge: "EXOTIC" },
+  { slug: "tantric-massage", title: "Tantric Massage", desc: "A mindful, meditative full-body massage to awaken and balance energy.", badge: "HOLISTIC" },
+  { slug: "four-hands-massage", title: "Four Hands Massage", desc: "Two therapists working in perfect synchrony for twice the relaxation.", badge: "LUXURY" },
+  { slug: "couples-massage", title: "Couples Massage", desc: "Side-by-side relaxation experience for two — perfect for any occasion.", badge: "COUPLES" },
+  { slug: "foot-reflexology", title: "Foot Reflexology", desc: "Pressure points on the feet stimulated to relieve tension throughout the body.", badge: "WELLNESS" },
+  { slug: "body-scrub-wrap", title: "Body Scrub & Wrap", desc: "Exfoliation and hydration treatment for glowing, refreshed skin.", badge: "GLOW" },
+];
+
 /* ── Slug parser ── */
 type Parsed =
   | { kind: "service"; service: (typeof services)[number] }
-  | { kind: "location"; location: string; keyword: "Escorts" | "Call Girls" };
+  | { kind: "location"; location: string; keyword: "Escorts" | "Call Girls" }
+  | { kind: "spa"; location: string };
 
 function parseSlug(slug: string): Parsed | null {
   const service = serviceMap.get(slug);
@@ -274,6 +291,10 @@ function parseSlug(slug: string): Parsed | null {
     const loc = locationByPart.get(slug.slice(11));
     if (loc) return { kind: "location", location: loc, keyword: "Call Girls" };
   }
+  if (slug.startsWith("spa-center-")) {
+    const loc = locationByPart.get(slug.slice(11));
+    if (loc) return { kind: "spa", location: loc };
+  }
   return null;
 }
 
@@ -282,7 +303,8 @@ export function generateStaticParams() {
   const serviceSlugs = services.map((s) => ({ slug: s.slug }));
   const escortSlugs = locations.map((loc) => ({ slug: `escorts-${toSlug(loc)}` }));
   const callGirlSlugs = locations.map((loc) => ({ slug: `call-girls-${toSlug(loc)}` }));
-  return [...serviceSlugs, ...escortSlugs, ...callGirlSlugs];
+  const spaSlugs = locations.map((loc) => ({ slug: `spa-center-${toSlug(loc)}` }));
+  return [...serviceSlugs, ...escortSlugs, ...callGirlSlugs, ...spaSlugs];
 }
 
 /* ── Metadata ── */
@@ -318,6 +340,33 @@ export async function generateMetadata({
     };
   }
 
+  /* SPA metadata */
+  if (parsed.kind === "spa") {
+    const { location } = parsed;
+    const isMmr = mumbaiAreaLocations.has(location);
+    const cityStr = isMmr ? `${location}, Mumbai` : location;
+    const ogImg = `https://pinkbraescort.in/images/services/default-escort.webp`;
+    return {
+      title: `Spa Center in ${cityStr} – Body Massage & Wellness`,
+      description: `Looking for the best spa center in ${location}? Pink Bra Spa offers Swedish, deep tissue, B2B, Nuru, Thai massage and more. Available 24/7 in ${cityStr}. Call +91-9653203658.`,
+      alternates: { canonical: `/${slug}` },
+      openGraph: {
+        title: `Spa Center in ${cityStr} – Body Massage & Wellness`,
+        description: `Premium spa & massage services in ${cityStr}. Swedish, B2B, Nuru, Thai, Hot Stone and more. Discreet, professional, available 24/7.`,
+        url: `https://pinkbraescort.in/${slug}`,
+        type: "website",
+        images: [{ url: ogImg, width: 1200, height: 630, alt: `Spa Center in ${cityStr}` }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `Spa Center in ${cityStr} – Body Massage & Wellness`,
+        description: `Premium spa & massage services in ${cityStr}. Available 24/7.`,
+        images: [ogImg],
+      },
+    };
+  }
+
+  /* location / call-girls metadata */
   const { location, keyword } = parsed;
   const isMumbaiArea = mumbaiAreaLocations.has(location);
   const cityLabel = isMumbaiArea ? `${location}, Mumbai` : location;
@@ -701,6 +750,325 @@ export default async function SlugPage({
             ]),
           }}
         />
+      </main>
+    );
+  }
+
+  /* ── SPA Center page ── */
+  if (parsed.kind === "spa") {
+    const { location } = parsed;
+    const isMmr = mumbaiAreaLocations.has(location);
+    const cityStr = isMmr ? `${location}, Mumbai` : location;
+
+    const spaStats = [
+      { num: "12+", label: "Spa Treatments" },
+      { num: "4.9★", label: "Average Rating" },
+      { num: "10+", label: isMmr ? "Years in Mumbai" : "Years India-wide" },
+      { num: "24/7", label: "Always Open" },
+    ];
+
+    const spaTrustCards = [
+      { icon: "fas fa-user-check", title: "Trained Therapists", desc: "Every therapist is certified, experienced and personally vetted by our team." },
+      { icon: "fas fa-user-secret", title: "Complete Privacy", desc: "Your session and personal details are handled with absolute confidentiality." },
+      { icon: "fas fa-clock", title: "Available 24/7", desc: "Book any time — day, night, weekends or holidays. No time restrictions." },
+      { icon: "fas fa-bolt", title: isMmr ? "30-Min Arrival" : "Same-Day Service", desc: isMmr ? "Our therapist reaches your preferred location in 30–45 minutes after confirmation." : "Same-day home or hotel visits arranged across all areas in ${location}." },
+    ];
+
+    const spaBookingSteps = [
+      { step: 1, title: "Call or WhatsApp", desc: "Contact us on +91-9653203658 any time." },
+      { step: 2, title: "Choose Your Treatment", desc: "Pick from Swedish, Deep Tissue, B2B, Nuru, Thai and more." },
+      { step: 3, title: "Confirm Your Slot", desc: "We confirm your booking instantly and share all details." },
+      { step: 4, title: "Relax & Unwind", desc: "Our therapist arrives at your location, on time, every time." },
+    ];
+
+    const spaFaqs = [
+      { q: `What spa and massage services are available in ${location}?`, a: `Pink Bra Spa in ${location} offers Swedish full body massage, deep tissue massage, B2B massage, Nuru massage, Thai massage, hot stone spa, aromatherapy, four hands massage, couples massage, foot reflexology, body scrub & wrap, and tantric massage. All sessions are available 24/7.` },
+      { q: `How do I book a spa session in ${cityStr}?`, a: `Simply call or WhatsApp +91-9653203658. Share your preferred treatment, location and timing and we will confirm your booking within minutes.` },
+      { q: `Are spa services available at home and hotels in ${location}?`, a: `Yes. We provide full outcall spa services — our trained therapists bring everything needed and visit your home, hotel room or private residence anywhere in ${location}.` },
+      { q: `How long does a massage session take in ${location}?`, a: `Sessions range from 60 minutes to 3 hours depending on the treatment type. We also offer extended and overnight relaxation packages tailored to your preference.` },
+      { q: `Is the spa booking in ${location} completely discreet?`, a: `Yes. All bookings are handled with strict privacy. Your personal information is never shared, stored or disclosed to any third party.` },
+      { q: `Are therapists in ${location} certified and verified?`, a: `Yes. Every therapist is personally interviewed and certified before joining our panel. You can trust that every session is conducted by a professional.` },
+      { q: `What is the cost of a massage in ${location}?`, a: `Rates depend on treatment type, duration and therapist selection. Call +91-9653203658 for a transparent quote with no hidden charges.` },
+      { q: `Do you offer B2B and Nuru massage in ${location}?`, a: `Yes. Body-to-body (B2B) and Nuru massage are available in ${location} for clients seeking a deeply intimate and relaxing experience. Book via WhatsApp on +91-9653203658.` },
+      { q: `Is Thai massage available in ${location}?`, a: `Yes. Traditional Thai massage with assisted stretching and acupressure is available in ${location}. It is ideal for relieving stiffness, improving flexibility and restoring energy after travel or long working hours.` },
+      { q: `Can I book a couples massage in ${location}?`, a: `Absolutely. Our couples massage is one of our most popular treatments in ${location}. Two therapists work simultaneously for a shared relaxation experience — perfect for holidays or special occasions.` },
+      { q: `Are same-day spa bookings available in ${location}?`, a: `Yes. Same-day and last-minute bookings are always welcome in ${location}. We recommend booking 1–2 hours in advance for a specific therapist, though we do our best to accommodate urgent requests.` },
+      { q: `Why choose Pink Bra Spa Center in ${location}?`, a: isMmr ? `Pink Bra Spa has been serving clients in Mumbai since 2015 with certified therapists across all areas including ${location}. We offer 12+ premium treatments, 4.9-star rated service, 30-minute arrival and full confidentiality on every booking.` : `Pink Bra Spa has been serving clients across India since 2015 with certified therapists available in ${location} and all major cities. We offer 12+ premium treatments, a 4.9-star rating and absolute privacy on every booking.` },
+    ];
+
+    const spaJsonLd = JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "HealthAndBeautyBusiness",
+        name: `Pink Bra Spa Center ${location}`,
+        description: `Premium spa and body massage center in ${cityStr} offering Swedish, deep tissue, B2B, Nuru, Thai and 12+ other treatments. Available 24/7.`,
+        telephone: "+919653203658",
+        url: `https://pinkbraescort.in/spa-center-${toSlug(location)}`,
+        address: { "@type": "PostalAddress", addressLocality: location, addressCountry: "IN" },
+        areaServed: { "@type": "Place", name: isMmr ? `${location}, Mumbai` : location },
+        openingHours: "Mo-Su 00:00-23:59",
+        priceRange: "₹₹",
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: spaFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.q,
+          acceptedAnswer: { "@type": "Answer", text: faq.a },
+        })),
+      },
+    ]);
+
+    return (
+      <main>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: spaJsonLd }} />
+
+        {/* HERO */}
+        <section className="hero-section" aria-label={`Spa Center in ${location}`}>
+          <div className="absolute inset-0 overflow-hidden hidden sm:block" style={{ pointerEvents: "none" }} aria-hidden="true">
+            <div className="absolute top-1/4 left-1/4 text-white opacity-10 text-6xl" style={{ animation: "float 3s ease-in-out infinite" }}>✿</div>
+            <div className="absolute top-1/3 right-1/4 text-white opacity-10 text-4xl" style={{ animation: "float 4s ease-in-out 1s infinite" }}>❀</div>
+            <div className="absolute bottom-1/3 left-1/3 text-white opacity-10 text-5xl" style={{ animation: "float 3.5s ease-in-out 2s infinite" }}>✦</div>
+          </div>
+          <div className="hero-content relative z-10">
+            <div className="max-w-4xl mx-auto px-4 text-center text-white">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full px-4 py-2 text-sm font-medium mb-6">
+                <i className="fas fa-spa" aria-hidden="true"></i>
+                <span>Premium Spa &amp; Massage {isMmr ? "Mumbai" : location}</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+                <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+                  Spa Center in {location}
+                </span>
+                {isMmr && (
+                  <span className="block bg-gradient-to-r from-white via-pink-100 to-white bg-clip-text text-transparent">
+                    Mumbai
+                  </span>
+                )}
+              </h1>
+              <p className="text-pink-100 text-lg sm:text-xl mb-8 max-w-2xl mx-auto">
+                Swedish · Deep Tissue · B2B · Nuru · Thai · Hot Stone &amp; 6 more treatments. Certified therapists available 24/7 in {location}.
+              </p>
+              <div className="flex gap-4 justify-center flex-wrap">
+                <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors shadow-lg">
+                  📞 Book Now
+                </a>
+                <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors shadow-lg">
+                  💬 WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS */}
+        <section className="py-12 bg-white">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              {spaStats.map((s) => (
+                <div key={s.label} className="bg-pink-50 rounded-2xl p-6">
+                  <div className="text-3xl font-extrabold text-pink-600 mb-1">{s.num}</div>
+                  <div className="text-gray-600 text-sm font-medium">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* TREATMENTS GRID */}
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
+              Spa &amp; Massage Treatments in {location}
+            </h2>
+            <p className="text-center text-gray-500 mb-12 max-w-2xl mx-auto">
+              Choose from 12 premium treatments delivered by certified therapists at your home or hotel in {location}.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {spaServices.map((t) => (
+                <div key={t.slug} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <div className="h-2 bg-gradient-to-r from-pink-500 to-rose-500" />
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-lg font-bold text-gray-800">{t.title}</h3>
+                      <span className="bg-pink-100 text-pink-600 text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap ml-2">{t.badge}</span>
+                    </div>
+                    <p className="text-gray-600 text-sm leading-relaxed mb-4">{t.desc}</p>
+                    <a href="tel:+919653203658" className="bg-pink-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors inline-block text-sm">
+                      Book in {location}
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* TRUST CARDS */}
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              Why Choose Pink Bra Spa in {location}?
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {spaTrustCards.map((c) => (
+                <div key={c.title} className="text-center p-6 bg-pink-50 rounded-2xl border border-pink-100">
+                  <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i className={`${c.icon} text-white text-xl`} aria-hidden="true"></i>
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">{c.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{c.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ABOUT */}
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <span className="inline-block bg-pink-100 text-pink-600 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide mb-4">About Us</span>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  Premium Spa Center in {cityStr}
+                </h2>
+                <p className="text-gray-600 mb-4 leading-relaxed text-lg">
+                  {isMmr
+                    ? `Pink Bra Spa is Mumbai's most trusted home and hotel spa service. In ${location}, we connect you with certified therapists who deliver 12+ premium treatments with complete discretion, any time of day or night.`
+                    : `Pink Bra Spa is one of India's most trusted home and hotel spa services. In ${location}, our certified therapists deliver 12+ premium treatments right to your door — with complete professionalism and privacy.`}
+                </p>
+                <p className="text-gray-600 mb-4 leading-relaxed">
+                  From a classic Swedish relaxation massage to the deeply immersive B2B or Nuru experience, every session is conducted by a trained, verified therapist in a clean, comfortable and fully private setting — at your home or hotel.
+                </p>
+                <p className="text-gray-600 mb-8 leading-relaxed">
+                  Since 2015, we have served thousands of satisfied clients {isMmr ? "across all Mumbai areas" : "across India"}. Our 4.9-star rating reflects our commitment to quality, discretion and genuine care at every session.
+                </p>
+                <div className="flex gap-4 flex-wrap">
+                  <a href="tel:+919653203658" className="bg-pink-500 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-600 transition-colors">
+                    📞 Book a Session
+                  </a>
+                  <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="border-2 border-pink-500 text-pink-600 px-6 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
+                    💬 WhatsApp Us
+                  </a>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { icon: "fas fa-spa", label: "12+ Treatments" },
+                  { icon: "fas fa-certificate", label: "Certified Therapists" },
+                  { icon: "fas fa-hotel", label: "Home & Hotel Visits" },
+                  { icon: "fas fa-lock", label: "100% Private" },
+                  { icon: "fas fa-clock", label: "Available 24/7" },
+                  { icon: "fas fa-star", label: "4.9★ Rating" },
+                ].map((item) => (
+                  <div key={item.label} className="bg-white rounded-xl p-5 text-center shadow-sm border border-pink-100">
+                    <i className={`${item.icon} text-2xl text-pink-500 mb-2 block`} aria-hidden="true"></i>
+                    <span className="text-sm font-semibold text-gray-700">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* HOW TO BOOK */}
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              How to Book a Spa in {location}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {spaBookingSteps.map((step) => (
+                <div key={step.step} className="text-center p-6 relative">
+                  <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl shadow-lg">
+                    {step.step}
+                  </div>
+                  <h3 className="font-bold text-gray-800 mb-2">{step.title}</h3>
+                  <p className="text-gray-600 text-sm">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* OTHER SPA LOCATIONS */}
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
+              {isMmr ? "Spa Centers in Other Mumbai Areas" : "Spa Centers in Other Cities"}
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {locations.filter((loc) => loc !== location).map((loc) => (
+                <Link
+                  key={loc}
+                  href={`/spa-center-${toSlug(loc)}`}
+                  className="bg-pink-500 hover:bg-pink-600 text-white text-center py-3 px-4 rounded-lg font-semibold transition-colors duration-300 block text-sm"
+                >
+                  Spa in {loc}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
+          <div className="max-w-3xl mx-auto px-4">
+            <h2 className="text-3xl font-bold mb-4">Book Your Spa Session in {location} Now</h2>
+            <p className="text-pink-100 mb-8 text-lg">Available 24/7 in {location} and {isMmr ? "all Mumbai areas" : "across India"}. Call or WhatsApp to book instantly.</p>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <a href="tel:+919653203658" className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-pink-50 transition-colors">
+                📞 +91-9653203658
+              </a>
+              <a href="https://api.whatsapp.com/send?phone=919653203658" rel="noopener noreferrer" target="_blank" className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors">
+                💬 WhatsApp Now
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="py-20 bg-gradient-to-br from-pink-50 via-rose-50 to-white relative overflow-hidden">
+          <div className="absolute -top-24 -left-24 w-80 h-80 bg-pink-200 rounded-full opacity-20 blur-3xl pointer-events-none" aria-hidden="true" />
+          <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-rose-200 rounded-full opacity-20 blur-3xl pointer-events-none" aria-hidden="true" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-14">
+              <span className="inline-block bg-pink-100 text-pink-600 text-sm font-semibold px-4 py-1 rounded-full mb-3 tracking-wide uppercase">Got Questions?</span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800">Frequently Asked Questions</h2>
+              <p className="mt-3 text-gray-500 max-w-xl mx-auto">Everything you need to know about spa services in {location} — answered.</p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <div className="space-y-4">
+                {spaFaqs.slice(0, 6).map((faq, i) => (
+                  <div key={faq.q} className="group bg-white rounded-2xl shadow-sm border border-pink-100 p-6 hover:shadow-md hover:border-pink-300 transition-all duration-300">
+                    <div className="flex items-start gap-4">
+                      <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 text-white text-sm font-bold flex items-center justify-center shadow">{i + 1}</span>
+                      <div>
+                        <h3 className="font-bold text-gray-800 mb-2 leading-snug group-hover:text-pink-600 transition-colors">{faq.q}</h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-4">
+                {spaFaqs.slice(6).map((faq, i) => (
+                  <div key={faq.q} className="group bg-white rounded-2xl shadow-sm border border-pink-100 p-6 hover:shadow-md hover:border-pink-300 transition-all duration-300">
+                    <div className="flex items-start gap-4">
+                      <span className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 text-white text-sm font-bold flex items-center justify-center shadow">{i + 7}</span>
+                      <div>
+                        <h3 className="font-bold text-gray-800 mb-2 leading-snug group-hover:text-pink-600 transition-colors">{faq.q}</h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     );
   }

@@ -122,6 +122,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // SPA center pages
+  const spaPages: MetadataRoute.Sitemap = locations.map((loc) => ({
+    url: `${BASE_URL}/spa-center-${toSlug(loc)}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
   // Blog pages
   const blogStaticPages: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
@@ -135,5 +143,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
   const blogPages = [...blogStaticPages, ...blogPostPages];
 
-  return [...staticPages, ...servicePages, ...escortPages, ...callGirlPages, ...blogPages];
+  return [...staticPages, ...servicePages, ...escortPages, ...callGirlPages, ...spaPages, ...blogPages];
 }
