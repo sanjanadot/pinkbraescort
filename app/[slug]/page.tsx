@@ -110,6 +110,153 @@ const mumbaiAreaLocations = new Set([
   "Mumbra", "Ghodbunder Road", "Taloja", "Vile Parle",
 ]);
 
+/* ── Location-specific editorial content ── */
+interface LocationContent {
+  cityIntro: string;          // opening paragraph about the city
+  whyUs: string;              // why choose us in this city
+  categories: string;         // escort categories available here
+  coverageNote: string;       // hotel / area coverage note
+  experience: string;         // the experience & mood paragraph
+  whatSetsApart: string;      // what sets Pink Bra apart here
+  disclaimer: string;         // booking note / disclaimer
+}
+
+function getLocationContent(location: string, isMumbaiArea: boolean, keyword: string): LocationContent {
+  const kw = keyword.toLowerCase();
+
+  /* Individual city overrides */
+  const overrides: Record<string, Partial<LocationContent>> = {
+    "Andheri": {
+      cityIntro: `Andheri is the beating commercial heart of Mumbai — home to SEEPZ, the film studios of Andheri East, and the buzzing nightlife strips of Andheri West. The suburb never truly sleeps, with late-night restaurants, lounges and five-star hotels that draw attention from across the city. Whether you are here on business or leisure, Pink Bra Escorts ensures your evenings in Andheri are as vibrant as the suburb itself, connecting you with the finest verified ${kw} who are always just minutes away.`,
+      coverageNote: `Our ${kw} are available across all pockets of Andheri — from the lanes of Versova and Four Bungalows to the corporate corridors of MIDC and Andheri East station. We cover every star hotel in the area including JW Marriott, The Leela, Courtyard by Marriott and more. Companions reach your door within 30–45 minutes of confirmation.`,
+    },
+    "Bandra": {
+      cityIntro: `Bandra is Mumbai's most fashionable address — the suburb that gave Bollywood its residence, the sea its promenade, and the city its cafe culture. From Carter Road to Linking Road, Bandra pulses with energy at every hour. Pink Bra Escorts brings you premium verified ${kw} in Bandra who match the suburb's cosmopolitan spirit — sophisticated, charming and completely discreet.`,
+      coverageNote: `We cover all of Bandra — Bandra West, Bandra East, Khar, Reclamation, Band Stand and every hotel along the stretch including Taj Lands End, The Leela and ITC Grand Central. Companions arrive within 30–45 minutes anywhere in the Bandra belt.`,
+    },
+    "Juhu": {
+      cityIntro: `Juhu is where the Arabian Sea meets Bollywood glamour. Home to numerous film celebrities, luxury hotels and the iconic Juhu Beach, this suburb is synonymous with high-end leisure. Pink Bra Escorts offers premium verified ${kw} in Juhu who carry the refined elegance that this exclusive suburb demands — ready to join you on the beachfront, in your hotel suite, or at a private event.`,
+      coverageNote: `We serve all of Juhu — from the beachside hotels like JW Marriott Juhu, VITS and Sun-n-Sand to the quiet residential lanes behind the beach. Companions reach your location in 30–45 minutes from confirmation.`,
+    },
+    "Powai": {
+      cityIntro: `Powai is Mumbai's tech-meets-luxury enclave — home to Hiranandani Gardens, IIT Bombay, and the glittering Powai Lake. With its polished malls, rooftop bars and business parks, Powai attracts a sophisticated crowd of professionals and entrepreneurs. Pink Bra Escorts connects you with cultured, well-spoken verified ${kw} in Powai who can accompany you to a corporate dinner, relax with you at the lake-view hotel, or simply be the perfect company at the end of a long day.`,
+      coverageNote: `We cover all of Powai — Hiranandani Gardens, Chandivali, Saki Naka junction and every premium hotel including Renaissance Mumbai, Meluha The Fern and Kohinoor Continental. Companions arrive within 30–45 minutes.`,
+    },
+    "Colaba": {
+      cityIntro: `Colaba is the soul of South Mumbai — where the historic Taj Mahal Palace overlooks the Gateway of India, and heritage cafes sit alongside upscale boutiques. This legendary neighbourhood draws discerning travellers from every corner of the world. Pink Bra Escorts provides elite verified ${kw} in Colaba who complement the area's timeless class — perfect companions for a private dinner, a hotel evening, or a stroll along the seafront promenade.`,
+      coverageNote: `We serve all of Colaba, Nariman Point, Churchgate, Fort and the entire South Mumbai corridor. Properties covered include the Taj Mahal Palace, The Oberoi, Trident, and Vivanta — with companion arrival within 30–45 minutes.`,
+    },
+    "Worli": {
+      cityIntro: `Worli is where luxury high-rises kiss the sky and the iconic Sea Link connects South Mumbai to the western suburbs. Home to flagship offices, rooftop bars and some of Mumbai's most exclusive residential towers, Worli has evolved into the city's premier upscale address. Pink Bra Escorts offers high-end verified ${kw} in Worli whose sophistication matches the neighbourhood's premium ambience — ideal for intimate evenings or corporate events.`,
+      coverageNote: `We cover Worli, Prabhadevi, Lower Parel and the entire Bandra-Worli corridor. Hotels served include Novotel, Four Seasons, Palladium and ITC Grand Central. Companions arrive within 30 minutes.`,
+    },
+    "Thane": {
+      cityIntro: `Thane — the City of Lakes — has grown from a quiet Mumbai satellite into a thriving metropolis in its own right. With sprawling malls, a booming hospitality sector and a cosmopolitan residential population, Thane today offers everything a major city can. Pink Bra Escorts is proud to serve Thane with a curated roster of verified ${kw} who understand local expectations and bring professionalism, warmth and complete discretion to every meeting.`,
+      coverageNote: `We cover all of Thane city — Thane West, Thane East, Ghodbunder Road, Kolshet, Majiwada, Hiranandani Estate and all major hotels including Vivanta Thane, Radisson Blu and Atharva. Companions reach you within 45 minutes.`,
+    },
+    "Navi Mumbai": {
+      cityIntro: `Navi Mumbai is one of India's most planned cities — a polished, green urban space that has matured into a destination of its own. Vashi, Kharghar, Belapur and Panvel each carry a distinct energy, and together they form a city that works hard and plays equally well. Pink Bra Escorts brings verified premium ${kw} to Navi Mumbai — professional, discreet and always available to make your stay here genuinely memorable.`,
+      coverageNote: `We cover all nodes of Navi Mumbai — Vashi, Nerul, Belapur, Kharghar, Panvel, Airoli, Kopar Khairane, Sanpada, Seawood and Ulwe. Hotels served include Novotel Navi Mumbai, The Lalit, ITC Fortune and Ramada. Companions arrive within 45 minutes.`,
+    },
+    "Pune": {
+      cityIntro: `Pune — the Oxford of the East — is a city that balances centuries of Maratha heritage with a youthful, cosmopolitan energy. Home to premier educational institutions, a booming IT sector and some of Maharashtra's finest dining and nightlife, Pune draws visitors and residents from across India. Pink Bra Escorts offers premium verified ${kw} in Pune who match the city's progressive, educated spirit — charming, articulate and absolutely discreet.`,
+      coverageNote: `We serve all major areas of Pune — Koregaon Park, Kalyani Nagar, Baner, Aundh, Hinjewadi, Camp, Shivajinagar and MG Road, including all premium hotels. Companions are arranged on the same day with full privacy.`,
+    },
+    "Nashik": {
+      cityIntro: `Nashik is the land of ancient temples, the sacred Godavari, and India's finest vineyards. A city that is equally rich in spiritual heritage and modern hospitality, Nashik draws pilgrims and wine tourists alike. Pink Bra Escorts provides discreet, verified ${kw} in Nashik for clients who seek genuine companionship and warmth during their stay — relaxed, respectful and tailored to your comfort.`,
+      coverageNote: `We cover College Road, Gangapur Road, Indira Nagar, Deolali, Trimbakeshwar Road and all major Nashik hotels. Same-day companion arrangement with complete confidentiality.`,
+    },
+    "Nagpur": {
+      cityIntro: `Nagpur, the Orange City, sits at the geographical centre of India and carries the quiet confidence of a city that knows its own worth. A growing commercial hub with wide tree-lined avenues, excellent hospitality infrastructure and a warm local culture, Nagpur is an increasingly popular destination for business travellers. Pink Bra Escorts delivers verified premium ${kw} in Nagpur — professional, friendly and built around your complete privacy.`,
+      coverageNote: `We serve Dharampeth, Sitabuldi, Sadar, Civil Lines, Wardha Road, Hingna and Butibori, covering all star hotels in Nagpur. Same-day bookings available with guaranteed discretion.`,
+    },
+    "Delhi": {
+      cityIntro: `Delhi — the capital of India — is a city of staggering contrasts. Ancient Mughal monuments stand alongside gleaming glass towers, Chandni Chowk's chaotic brilliance meets the polished calm of Connaught Place, and Lutyens' wide boulevards give way to the electric energy of South Delhi's nightlife. For business travellers, government officials and tourists alike, Delhi is a city that demands to be experienced fully. Pink Bra Escorts brings premium verified ${kw} in Delhi who carry the sophistication this grand capital deserves — cultured, multilingual and completely discreet.`,
+      coverageNote: `We serve all zones of Delhi — South Delhi, Connaught Place, Aerocity, Karol Bagh, Dwarka, Rohini, Saket, Vasant Kunj, Hauz Khas and all major five-star properties including the Taj, Oberoi, Leela, ITC Maurya and Hyatt Regency. Same-day companions with assured confidentiality.`,
+    },
+    "Noida": {
+      cityIntro: `Noida is Delhi NCR's gleaming IT corridor — a city of glass office towers, luxury apartments and ambitious professionals. Sectors 18, 29 and the Expressway belt pulse with the energy of a modern metropolis, while the Noida-Greater Noida corridor has emerged as one of India's most connected urban zones. Pink Bra Escorts offers verified premium ${kw} in Noida who match the city's professional pace — polished, punctual and always discreet.`,
+      coverageNote: `We cover all of Noida — Sector 18, Sector 62, Sector 125, Greater Noida, Noida Expressway and every major hotel. Same-day bookings with full privacy.`,
+    },
+    "Gurgaon": {
+      cityIntro: `Gurgaon — now officially Gurugram — is India's corporate powerhouse, a skyline of Fortune 500 headquarters, five-star hotels and rooftop bars that never close. The city's Cyber City, Golf Course Road and MG Road belt attract some of India's highest-earning professionals and international executives. Pink Bra Escorts provides elite verified ${kw} in Gurgaon whose presence matches the city's executive-class energy — refined, confident and completely private.`,
+      coverageNote: `We serve Cyber City, DLF Phase 1–5, Golf Course Road, Sohna Road, NH-48 corridor and all premium hotels including Leela Ambience, Oberoi, Trident, Westin and Hyatt Regency. Same-day companions guaranteed.`,
+    },
+    "Bangalore": {
+      cityIntro: `Bangalore — India's Silicon Valley — is a city that thrives on innovation, cosmopolitan culture and an enviable pub scene. From the green avenues of Indiranagar to the glass towers of Whitefield and Electronic City, Bangalore attracts the brightest minds from across the world. Its outdoor culture, world-class dining, and vibrant social scene make it a city where unwinding is an art. Pink Bra Escorts offers premium verified ${kw} in Bangalore who perfectly match the city's open-minded, educated and sophisticated character.`,
+      coverageNote: `We cover MG Road, Koramangala, Indiranagar, Whitefield, Electronic City, HSR Layout, Hebbal, Marathahalli and all major Bangalore hotels including Taj, Oberoi, ITC Windsor and Sheraton. Same-day bookings with complete discretion.`,
+    },
+    "Hyderabad": {
+      cityIntro: `Hyderabad is a city where the Charminar's ancient grandeur coexists with the futuristic towers of HITEC City. The City of Pearls seduces visitors with aromatic biryanis, the glittering Hussain Sagar lake, and a hospitality culture that is genuinely second to none. Pink Bra Escorts brings fine verified ${kw} in Hyderabad who embody the city's blend of royal warmth and modern elegance — graceful, well-spoken and highly discreet.`,
+      coverageNote: `We serve Banjara Hills, Jubilee Hills, HITEC City, Gachibowli, Kondapur, Kukatpally, Secunderabad and all star properties including Taj Falaknuma, ITC Kakatiya, Novotel and Marriott. Same-day availability.`,
+    },
+    "Chennai": {
+      cityIntro: `Chennai — the Gateway of South India — is a city of graceful temples, roaring Marina Beach and a thriving IT and manufacturing economy. Nungambakkam's tree-lined lanes, the art-deco heritage of Egmore and the modern energy of OMR together make Chennai a city of quiet strength and deep culture. Pink Bra Escorts offers verified ${kw} in Chennai who respect the city's values of privacy and professionalism while delivering a genuinely warm and memorable companionship experience.`,
+      coverageNote: `We cover T. Nagar, Nungambakkam, Anna Nagar, OMR, ECR, Velachery, Adyar, Guindy and all Chennai five-star hotels including Taj Coromandel, ITC Grand Chola, The Westin and Hyatt Regency. Same-day bookings.`,
+    },
+    "Kolkata": {
+      cityIntro: `Kolkata — the City of Joy — carries an intellectual and artistic soul unlike any other Indian city. Victoria Memorial's white marble silhouette, the warmth of adda culture, the iconic yellow taxis and the grandeur of Park Street at night all conspire to make Kolkata one of India's most emotionally vivid cities. Pink Bra Escorts provides warm, cultivated verified ${kw} in Kolkata who understand the city's love for literature, conversation and genuine human connection — perfect companions for an evening that is as much about the mind as the senses.`,
+      coverageNote: `We serve Park Street, Salt Lake, New Town, Rajarhat, Howrah, EM Bypass and all premium Kolkata hotels including Taj Bengal, Oberoi Grand, ITC, Novotel and Hyatt. Same-day companions.`,
+    },
+    "Jaipur": {
+      cityIntro: `Jaipur — the Pink City — is one of India's most regal destinations. Amber Fort, Hawa Mahal, City Palace and the bustling Johari Bazaar paint a picture of Rajputana splendour that captivates every visitor. Beyond its monuments, Jaipur is home to a thriving hospitality industry, world-class hotels and a growing business community. Pink Bra Escorts offers verified ${kw} in Jaipur who blend naturally into the city's heritage luxury setting — graceful, charming and completely discreet.`,
+      coverageNote: `We cover MI Road, C-Scheme, Bani Park, Malviya Nagar, Vaishali Nagar, Tonk Road and all Jaipur heritage and five-star hotels including Rambagh Palace, Jai Mahal Palace, ITC Rajputana and Marriott. Same-day bookings.`,
+    },
+    "Ahmedabad": {
+      cityIntro: `Ahmedabad — India's first UNESCO World Heritage City — is a place of extraordinary architectural legacy, entrepreneurial ambition and cultural depth. The old walled city's pol culture, the Sabarmati Ashram's quiet dignity and the glittering towers of SG Road together reflect a city in confident transformation. Pink Bra Escorts brings premium verified ${kw} in Ahmedabad who respect the city's culture of discretion and provide companionship that is warm, professional and entirely private.`,
+      coverageNote: `We serve SG Road, CG Road, Navrangpura, Bopal, Prahlad Nagar, Vastrapur and all Ahmedabad premium hotels including Hyatt Regency, Courtyard Marriott, Novotel and Radisson Blu. Same-day companions guaranteed.`,
+    },
+    "Goa": {
+      cityIntro: `Goa is India's paradise — sun-kissed beaches, swaying palms, a Portuguese colonial legacy and a festival spirit that never fades. From the shacks of Baga and Calangute to the boutique luxury of Assagao and Panjim's heritage neighbourhoods, Goa is a place where every visitor wants to linger longer. Pink Bra Escorts offers beachside-ready verified ${kw} in Goa who match the state's free-spirited, sun-soaked energy — perfect companions for a sunset dinner, a beach club evening, or a private villa retreat.`,
+      coverageNote: `We cover North Goa (Baga, Calangute, Candolim, Anjuna, Vagator, Panjim) and South Goa (Colva, Benaulim, Majorda, Margao). All five-star resorts and beach properties served. Same-day bookings with full discretion.`,
+    },
+    "Lucknow": {
+      cityIntro: `Lucknow — the City of Nawabs — is India's most gracious city. Its tehzeeb (refined courtesy), the fragrant kormas of Hazratganj and the layered beauty of the Bara Imambara make Lucknow a place that cherishes elegance in every form. For visitors seeking companionship in this city of culture, Pink Bra Escorts delivers verified ${kw} in Lucknow who understand and embody the city's ethos of warmth, poise and genuine personal care.`,
+      coverageNote: `We serve Hazratganj, Gomti Nagar, Mahanagar, Aliganj, Indiranagar, Sushant Golf City and all premium Lucknow hotels including Taj, Hyatt, Vivanta and Holiday Inn. Same-day bookings.`,
+    },
+    "Chandigarh": {
+      cityIntro: `Chandigarh is the city Le Corbusier built — clean, wide, green and purposefully beautiful. As the capital of both Punjab and Haryana and one of India's highest per-capita income cities, Chandigarh carries a quiet prosperity and an outdoor-loving culture that sets it apart. Sector 17, the Rock Garden and Sukhna Lake form the backdrop of a city that enjoys life to the full. Pink Bra Escorts brings premium verified ${kw} in Chandigarh who match the city's modern, confident and cosmopolitan spirit.`,
+      coverageNote: `We cover Sector 17, Sector 22, Sector 35, IT Park, Panchkula, Mohali and all premium properties including Taj, Hyatt, JW Marriott and Lalit. Same-day companions with complete privacy.`,
+    },
+    "Bhopal": {
+      cityIntro: `Bhopal — the City of Lakes — is Madhya Pradesh's tranquil capital, famous for its twin lakes, lush greenery and the iconic Taj-ul-Masjid. A city that balances a relaxed pace of life with growing commercial activity, Bhopal is home to professionals, government officials and business visitors who deserve quality companionship during their stay. Pink Bra Escorts offers verified ${kw} in Bhopal — warm, discreet and professional — perfect for a quiet dinner, a hotel visit or simple, pleasant company.`,
+      coverageNote: `We serve New Market, Arera Colony, MP Nagar, Habibganj, Kolar Road, Bawadia Kalan and all major Bhopal hotels including Jehan Numa Palace, Courtyard Marriott, Holiday Inn and Radisson Blu. Same-day bookings with full confidentiality.`,
+    },
+    "Indore": {
+      cityIntro: `Indore — Madhya Pradesh's commercial capital — is a city of extraordinary street food and ambitious growth. The soul of Sarafa Bazaar at midnight, the energy of Vijay Nagar's cafes and the corporate buzz of AB Road together make Indore a city that rewards visitors generously. Pink Bra Escorts provides verified ${kw} in Indore who bring genuine warmth, ease and professionalism to every meeting — making your time in this spirited city truly worthwhile.`,
+      coverageNote: `We cover Vijay Nagar, AB Road, Rau, LIG Square, Palasia, MR 10 and all Indore premium hotels. Same-day companions guaranteed with complete discretion.`,
+    },
+    "Kochi": {
+      cityIntro: `Kochi — Queen of the Arabian Sea — is India's most cosmopolitan port city. Spice-scented Fort Kochi, the gleaming IT towers of Infopark, the backwater sunsets and the vibrant food scene of Marine Drive make Kochi a city of extraordinary sensory richness. Pink Bra Escorts offers verified ${kw} in Kochi whose warmth and professionalism match the city's globally outward-looking culture — perfect for an evening in a heritage hotel, a waterfront dinner, or quiet private company.`,
+      coverageNote: `We serve Fort Kochi, Ernakulam, Kaloor, Kakkanad, Infopark, Edappally and all Kochi luxury hotels including Taj Malabar, Le Méridien, Crowne Plaza and ITC. Same-day bookings with assured privacy.`,
+    },
+  };
+
+  /* Per-location overrides merged with defaults */
+  const override = overrides[location] ?? {};
+
+  /* Default content (generic city, fully dynamic) */
+  const defaults: LocationContent = {
+    cityIntro: `${location} is a city that rewards those who know how to experience it fully. Beyond its visible attractions — its markets, hotels and business hubs — lies a vibrant private social scene that only the right companionship can unlock. Pink Bra Escorts brings premium verified ${kw} in ${location} who are professional, genuinely warm and built around your personal comfort. Whether you are visiting for work or leisure, our companions in ${location} will make every hour count.`,
+    whyUs: `Pink Bra Escorts has been connecting clients with verified companions for over a decade. In ${location}, we offer a roster of carefully screened ${kw} — each interviewed personally, photographed authentically, and trained to deliver an experience defined by respect, warmth and complete discretion. We are not a phone-book directory or a faceless app; we are a live agency with dedicated executives available 24 hours a day to handle your booking with care and speed.`,
+    categories: `Our ${location} companion roster includes professional models, college graduates, working professionals, and experienced independent escorts from across India. Whether you prefer a companion who is vivacious and conversational or one who is quietly sophisticated, we have exactly who you are looking for. Incall, outcall, dinner dates, overnight stays and short-duration bookings are all available — on your schedule, at your pace.`,
+    coverageNote: override.coverageNote ?? `We serve all major hotels, residences and localities in ${location}. Our ${kw} travel to your hotel, home or office at your convenience. Same-day and last-minute bookings are welcome and handled with complete confidentiality.`,
+    experience: `Our companions in ${location} are not simply service providers — they are intelligent, personable individuals who understand the value of genuine human connection. From the moment you connect, the stress of your day begins to dissolve. Whether it is a candlelight dinner, a relaxed conversation over drinks, or a private evening in your suite, your companion will be engaged, attentive and fully present. This is not a transaction — it is a carefully curated experience that leaves you restored and genuinely satisfied.`,
+    whatSetsApart: `What separates Pink Bra Escorts from other ${kw} providers in ${location} is the depth of our curation, the speed of our response and the absolute firmness of our privacy guarantee. Every companion has been vetted by our team. Every photograph is current and unedited. Every booking is handled by a real person, not an automated system. We have maintained a spotless reputation in this industry because we treat our clients with the same respect we expect in return. Your money earns you not just companionship, but trust, quality and an experience worth repeating.`,
+    disclaimer: `Our services are available exclusively to adults aged 18 years and above. All interactions between our clients and companions are entered into freely and on the basis of mutual consent and respect. We operate within the boundaries of applicable law and do not facilitate or encourage any form of illegal activity. Pink Bra Escorts acts solely as an intermediary introduction agency; any arrangement beyond introduction is an entirely private matter between consenting adults. Client privacy is paramount and your personal information is never shared, sold or retained beyond the booking interaction. By enquiring about or booking our ${kw} services in ${location}, you confirm that you are an adult and accept these terms fully.`,
+  };
+
+  return {
+    cityIntro: override.cityIntro ?? defaults.cityIntro,
+    whyUs: override.whyUs ?? defaults.whyUs,
+    categories: override.categories ?? defaults.categories,
+    coverageNote: override.coverageNote ?? defaults.coverageNote,
+    experience: override.experience ?? defaults.experience,
+    whatSetsApart: override.whatSetsApart ?? defaults.whatSetsApart,
+    disclaimer: override.disclaimer ?? defaults.disclaimer,
+  };
+}
+
 /* ── Slug parser ── */
 type Parsed =
   | { kind: "service"; service: (typeof services)[number] }
@@ -578,6 +725,8 @@ export default async function SlugPage({
     { q: `Why choose Pink Bra Escorts for ${keyword.toLowerCase()} in ${location}?`, a: isMumbaiArea ? `Pink Bra Escorts has served Mumbai since 2015 with 5,000+ verified companions across all areas including ${location}. We offer a 4.9-star rated service with guaranteed 30-minute arrival and full privacy on every booking.` : `Pink Bra Escorts has served clients across India since 2015 with 5,000+ verified companions available in ${location} and all major cities. We offer a 4.9-star rated service with full privacy on every booking.` },
   ];
 
+  const lc = getLocationContent(location, isMumbaiArea, keyword);
+
   return (
     <main>
       {/* ── HERO ── */}
@@ -776,6 +925,81 @@ export default async function SlugPage({
               💬 WhatsApp Now
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* ── EDITORIAL CONTENT ── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* City intro */}
+          <div className="mb-14">
+            <span className="inline-block bg-pink-100 text-pink-600 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide mb-4">
+              About {keyword} in {location}
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-5">
+              Premium {keyword} Service in {location}
+            </h2>
+            <p className="text-gray-600 leading-relaxed text-lg">{lc.cityIntro}</p>
+          </div>
+
+          {/* Why Pink Bra + Categories side by side */}
+          <div className="grid md:grid-cols-2 gap-10 mb-14">
+            <div className="bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl p-8 border border-pink-100">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm" aria-hidden="true">
+                  <i className="fas fa-shield-alt"></i>
+                </span>
+                About Pink Bra Escorts in {location}
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm">{lc.whyUs}</p>
+            </div>
+            <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-8 border border-rose-100">
+              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center text-sm" aria-hidden="true">
+                  <i className="fas fa-heart"></i>
+                </span>
+                {keyword} Categories in {location}
+              </h3>
+              <p className="text-gray-600 leading-relaxed text-sm">{lc.categories}</p>
+            </div>
+          </div>
+
+          {/* Coverage note */}
+          <div className="bg-gray-50 rounded-2xl p-8 mb-14 border border-gray-100">
+            <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <span className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center text-sm" aria-hidden="true">
+                <i className="fas fa-map-marker-alt"></i>
+              </span>
+              {isMumbaiArea ? `${keyword} Available Across All ${location} Areas` : `${keyword} Booking Coverage in ${location}`}
+            </h3>
+            <p className="text-gray-600 leading-relaxed">{lc.coverageNote}</p>
+          </div>
+
+          {/* Experience paragraph */}
+          <div className="mb-14">
+            <h3 className="text-2xl font-bold text-gray-800 mb-5">
+              The Pink Bra Experience in {location}
+            </h3>
+            <p className="text-gray-600 leading-relaxed text-lg">{lc.experience}</p>
+          </div>
+
+          {/* What sets apart */}
+          <div className="mb-14 bg-gradient-to-r from-pink-500 to-rose-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-5">
+              What Sets Pink Bra Apart from Other {keyword} in {location}?
+            </h3>
+            <p className="leading-relaxed text-pink-50">{lc.whatSetsApart}</p>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="border border-gray-200 rounded-2xl p-8 bg-gray-50">
+            <h3 className="text-base font-bold text-gray-700 mb-3 uppercase tracking-wide text-sm">
+              Important Notice
+            </h3>
+            <p className="text-gray-500 text-sm leading-relaxed">{lc.disclaimer}</p>
+          </div>
+
         </div>
       </section>
 
