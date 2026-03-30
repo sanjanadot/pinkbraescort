@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Gallery | Pink Bra Escorts Mumbai - View All Escorts",
   description:
     "View our gallery of 5000+ verified escorts in Mumbai. VIP models, celebrity escorts, Russian girls, and more. Available 24/7.",
+  alternates: { canonical: "/gallery" },
 };
 
 const galleryImages = [
