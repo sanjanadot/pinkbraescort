@@ -7,10 +7,17 @@ export const metadata: Metadata = {
     "Browse all escort service categories in Mumbai — VIP models, college companions, Russian escorts, independent professionals and more. Verified, discreet, available 24/7.",
   alternates: { canonical: "/services" },
   openGraph: {
-    title: "Escort Services in Mumbai – All Categories",
+    title: "Escort Services in Mumbai – All Categories | Pink Bra Escorts",
     description: "All escort categories in Mumbai. Verified companions available 24/7 for incall and outcall bookings.",
     url: "https://pinkbraescort.in/services",
     type: "website",
+    images: [{ url: "https://pinkbraescort.in/images/services/vip-escorts-mumbai.webp", width: 1200, height: 630, alt: "Escort Services in Mumbai" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Escort Services in Mumbai – All Categories",
+    description: "All escort categories in Mumbai. Verified companions available 24/7 for incall and outcall bookings.",
+    images: ["https://pinkbraescort.in/images/services/vip-escorts-mumbai.webp"],
   },
 };
 

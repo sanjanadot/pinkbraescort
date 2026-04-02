@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Pink Bra Escorts Mumbai – Verified Companions Since 2015",
+  title: "About Pink Bra Escorts – Verified Companions Since 2015",
   description:
     "Pink Bra Escorts has provided verified, professional companionship services in Mumbai since 2015. Learn about our standards, values, and commitment to discretion.",
   alternates: { canonical: "/about" },
@@ -10,6 +10,13 @@ export const metadata: Metadata = {
     description: "Trusted escort agency in Mumbai since 2015. Verified companions, full discretion, 24/7 availability.",
     url: "https://pinkbraescort.in/about",
     type: "website",
+    images: [{ url: "https://pinkbraescort.in/images/services/default-escort.webp", width: 1200, height: 630, alt: "About Pink Bra Escorts Mumbai" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Pink Bra Escorts Mumbai – Verified Companions Since 2015",
+    description: "Trusted escort agency in Mumbai since 2015. Verified companions, full discretion, 24/7 availability.",
+    images: ["https://pinkbraescort.in/images/services/default-escort.webp"],
   },
 };
 

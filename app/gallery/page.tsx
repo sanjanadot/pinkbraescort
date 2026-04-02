@@ -3,10 +3,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Gallery | Pink Bra Escorts Mumbai - View All Escorts",
+  title: "Escort Gallery Mumbai – View All Verified Escorts",
   description:
     "View our gallery of 5000+ verified escorts in Mumbai. VIP models, celebrity escorts, Russian girls, and more. Available 24/7.",
   alternates: { canonical: "/gallery" },
+  openGraph: {
+    title: "Escort Gallery Mumbai – View All Verified Escorts | Pink Bra Escorts",
+    description: "Browse 5000+ verified escort photos in Mumbai — VIP models, celebrities, Russians, college girls and more. Available 24/7.",
+    url: "https://pinkbraescort.in/gallery",
+    type: "website",
+    images: [{ url: "https://pinkbraescort.in/images/services/vip-escorts-mumbai.webp", width: 1200, height: 630, alt: "Escort Gallery Mumbai" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Escort Gallery Mumbai – View All Verified Escorts",
+    description: "Browse 5000+ verified escort photos in Mumbai — VIP models, celebrities, Russians, college girls and more.",
+    images: ["https://pinkbraescort.in/images/services/vip-escorts-mumbai.webp"],
+  },
 };
 
 const galleryImages = [
@@ -64,7 +77,7 @@ export default function GalleryPage() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {galleryImages.map((img) => (
+            {galleryImages.map((img, index) => (
               <Link
                 key={img.src}
                 href={img.href}
@@ -73,11 +86,11 @@ export default function GalleryPage() {
                 <div className="relative overflow-hidden">
                   <Image
                     src={`/images/services/${img.src}`}
-                    alt={`${img.title} Mumbai`}
+                    alt={`${img.title} in Mumbai – Pink Bra Escorts`}
                     width={300}
                     height={350}
                     className="w-full h-72 object-cover object-top group-hover:scale-110 transition-transform duration-300"
-                    loading="lazy"
+                    priority={index < 4}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <div className="p-4">

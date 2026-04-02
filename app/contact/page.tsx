@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Pink Bra Escorts Mumbai – Call or WhatsApp to Book",
+  title: "Contact Us – Book an Escort in Mumbai 24/7",
   description:
     "Contact Pink Bra Escorts Mumbai by phone or WhatsApp at +91-9653203658. Available 24/7 to arrange verified companions across all Mumbai areas.",
   alternates: { canonical: "/contact" },
@@ -10,6 +10,13 @@ export const metadata: Metadata = {
     description: "Reach us 24/7 on +91-9653203658. Quick, discreet booking for escorts across all Mumbai areas.",
     url: "https://pinkbraescort.in/contact",
     type: "website",
+    images: [{ url: "https://pinkbraescort.in/images/services/default-escort.webp", width: 1200, height: 630, alt: "Contact Pink Bra Escorts Mumbai" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Pink Bra Escorts Mumbai – Call or WhatsApp to Book",
+    description: "Reach us 24/7 on +91-9653203658. Quick, discreet booking for escorts across all Mumbai areas.",
+    images: ["https://pinkbraescort.in/images/services/default-escort.webp"],
   },
 };
 

@@ -8,6 +8,19 @@ export const metadata: Metadata = {
   description:
     "Read expert articles on booking escorts in Mumbai safely, city nightlife guides, companion etiquette, discretion tips and more. Updated regularly by Pink Bra Escorts.",
   alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "Blog — Escort Guides, Mumbai Lifestyle & Companion Tips | Pink Bra Escorts",
+    description: "Expert articles on booking escorts in Mumbai safely, city nightlife guides, companion etiquette and discretion tips.",
+    url: "https://pinkbraescort.in/blog",
+    type: "website",
+    images: [{ url: "https://pinkbraescort.in/images/services/default-escort.webp", width: 1200, height: 630, alt: "Pink Bra Escorts Blog" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog — Escort Guides, Mumbai Lifestyle & Companion Tips",
+    description: "Expert articles on booking escorts in Mumbai safely, nightlife guides, companion etiquette and discretion tips.",
+    images: ["https://pinkbraescort.in/images/services/default-escort.webp"],
+  },
 };
 
 const categoryColors: Record<string, string> = {

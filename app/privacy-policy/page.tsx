@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Pink Bra Escorts Mumbai",
+  title: "Privacy Policy",
   description: "Privacy Policy for Pink Bra Escorts Mumbai. Learn how we collect, use, and protect your personal information.",
   alternates: { canonical: "/privacy-policy" },
 };
@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
       <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
-          <p className="text-pink-100 text-lg">Last updated: January 2025</p>
+          <p className="text-pink-100 text-lg">Last updated: April 2026</p>
         </div>
       </section>
 

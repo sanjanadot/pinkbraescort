@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Pink Bra Escorts Mumbai",
+  title: "Terms of Service",
   description: "Terms of Service for Pink Bra Escorts Mumbai. Please read these terms carefully before using our services.",
   alternates: { canonical: "/terms-of-service" },
 };
@@ -13,7 +13,7 @@ export default function TermsOfServicePage() {
       <section className="py-16 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Terms of Service</h1>
-          <p className="text-pink-100 text-lg">Last updated: January 2025</p>
+          <p className="text-pink-100 text-lg">Last updated: April 2026</p>
         </div>
       </section>
 
