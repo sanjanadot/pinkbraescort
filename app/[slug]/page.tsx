@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import { serviceList as services, locationList as locations, spaServiceList as spaServices, mumbaiAreaSet as mumbaiAreaLocations, toSlug } from "@/lib/data";
 
 /* ── Lookup maps (data imported from lib/data.ts) ── */
@@ -281,7 +281,7 @@ export default async function SlugPage({
 }) {
   const { slug } = await params;
   const parsed = parseSlug(slug);
-  if (!parsed) notFound();
+  if (!parsed) redirect('/');
 
   const locationName = parsed.kind !== "service" ? parsed.location : "";
   const isMumbaiArea = parsed.kind !== "service" && mumbaiAreaLocations.has(parsed.location);

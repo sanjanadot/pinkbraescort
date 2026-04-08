@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { blogPosts, categories } from "@/lib/blog-posts";
 
 const categoryColors: Record<string, string> = {
@@ -48,7 +48,7 @@ export default async function BlogPostPage({
 }) {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
-  if (!post) notFound();
+  if (!post) redirect('/');
 
   const related = blogPosts.filter((p) => p.slug !== slug && p.category === post.category).slice(0, 3);
   const fallbackRelated = blogPosts.filter((p) => p.slug !== slug).slice(0, 3);
