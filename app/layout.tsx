@@ -34,6 +34,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   alternates: { canonical: "/" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  verification: { google: "Gk8yQC6YSwo8bMUu813PGVBqFpbwYThNHsQI8T1NlM4" },
 };
 
 export default function RootLayout({
